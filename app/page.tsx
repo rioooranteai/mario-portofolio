@@ -1,65 +1,194 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+/**
+ * Home Page — app/page.tsx
+ * ─────────────────────────
+ * Navbar sudah dipindah ke layout.tsx via <Navbar />.
+ * File ini hanya berisi konten halaman Home.
+ */
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import styles from "./page.module.css";
+
+/* ─── Constants ─────────────────────────────────────────── */
+
+const TYPED_WORDS = ["creative.", "passionate.", "developer.", "designer.", "builder."];
+
+/* ─── Noise helper ──────────────────────────────────────── */
+
+function smoothNoise(x: number, y: number, t: number): number {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    Math.sin(x * 0.008 + t * 0.3) *
+    Math.cos(y * 0.008 - t * 0.2) *
+    Math.sin((x + y) * 0.005 + t * 0.15)
+  );
+}
+
+/* ─── Component ─────────────────────────────────────────── */
+
+export default function HomePage() {
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const animIdRef   = useRef<number>(0);
+  const frameRef    = useRef(0);
+  const wordIndexRef = useRef(0);
+  const charIndexRef = useRef(0);
+  const deletingRef  = useRef(false);
+
+  const [typedWord, setTypedWord] = useState("");
+
+  /* ── Typewriter ────────────────────────────────────────── */
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      const word = TYPED_WORDS[wordIndexRef.current];
+
+      if (!deletingRef.current) {
+        charIndexRef.current += 1;
+        setTypedWord(word.slice(0, charIndexRef.current));
+
+        if (charIndexRef.current === word.length) {
+          deletingRef.current = true;
+          timeout = setTimeout(tick, 1800);
+          return;
+        }
+      } else {
+        charIndexRef.current -= 1;
+        setTypedWord(word.slice(0, charIndexRef.current));
+
+        if (charIndexRef.current === 0) {
+          deletingRef.current = false;
+          wordIndexRef.current = (wordIndexRef.current + 1) % TYPED_WORDS.length;
+        }
+      }
+
+      timeout = setTimeout(tick, deletingRef.current ? 55 : 95);
+    };
+
+    timeout = setTimeout(tick, 600);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  /* ── Canvas draw ───────────────────────────────────────── */
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const t = frameRef.current * 0.018;
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.fillStyle = "#080808";
+    ctx.fillRect(0, 0, w, h);
+
+    const blobs = [
+      { x: w * 0.18 + Math.sin(t * 0.4) * 90,  y: h * 0.28 + Math.cos(t * 0.3)  * 65, r: 380, color: "rgba(60,40,100,0.22)" },
+      { x: w * 0.76 + Math.cos(t * 0.35) * 110, y: h * 0.62 + Math.sin(t * 0.45) * 75, r: 420, color: "rgba(20,60,80,0.18)"  },
+      { x: w * 0.5  + Math.sin(t * 0.25) * 55,  y: h * 0.12 + Math.cos(t * 0.5)  * 38, r: 290, color: "rgba(80,40,20,0.12)"  },
+    ];
+
+    blobs.forEach(({ x, y, r, color }) => {
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+      grad.addColorStop(0, color);
+      grad.addColorStop(1, "transparent");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+    });
+
+    const STEP = 3;
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const data = imageData.data;
+
+    for (let py = 0; py < h; py += STEP) {
+      for (let px = 0; px < w; px += STEP) {
+        const n = smoothNoise(px, py, t);
+        const grain = (Math.random() * 2 - 1) * 18;
+        const brightness = n * 12 + grain;
+
+        for (let dy = 0; dy < STEP && py + dy < h; dy++) {
+          for (let dx = 0; dx < STEP && px + dx < w; dx++) {
+            const i = ((py + dy) * w + (px + dx)) * 4;
+            data[i]     = Math.max(0, Math.min(255, data[i]     + brightness));
+            data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + brightness * 0.85));
+            data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + brightness * 1.1));
+          }
+        }
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    const vignette = ctx.createRadialGradient(w / 2, h / 2, h * 0.2, w / 2, h / 2, h * 0.9);
+    vignette.addColorStop(0, "transparent");
+    vignette.addColorStop(1, "rgba(0,0,0,0.65)");
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, w, h);
+
+    frameRef.current += 1;
+    animIdRef.current = requestAnimationFrame(draw);
+  }, []);
+
+  /* ── Canvas setup & resize ─────────────────────────────── */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const resize = () => {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+    animIdRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animIdRef.current);
+    };
+  }, [draw]);
+
+  /* ── Render ────────────────────────────────────────────── */
+  return (
+    <div className={styles.page}>
+      {/* Background canvas */}
+      <canvas ref={canvasRef} className={styles.noiseCanvas} aria-hidden="true" />
+
+      {/* Hero — navbar sudah ada di layout.tsx, tidak perlu di sini */}
+      <main className={styles.hero}>
+        <p className={styles.heroEyebrow}>Portfolio — riooorante</p>
+
+        <div className={styles.heroHeadingBlock}>
+          <h1 className={styles.heroHeading}>
+            Welcome to my <span className={styles.heroWhite}>World.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+          <h2 className={styles.heroHeadingLine2} aria-live="polite">
+            I am a{" "}
+            <span className={styles.heroTyped}>{typedWord}</span>
+            <span className={styles.heroCursor} aria-hidden="true" />
+          </h2>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <p className={styles.heroSub}>
+          Crafting digital experiences that leave a lasting impression.
+          Let&apos;s build something great together.
+        </p>
+
+        <div className={styles.heroCta}>
+          <button className={styles.btnPrimary}>View My Work</button>
+          <button className={styles.btnGhost}>Scroll down</button>
         </div>
       </main>
+
+      {/* Bottom bar */}
+      <footer className={styles.bottomBar}>
+        <div className={styles.statusDot}>
+          <span className={styles.greenDot} aria-hidden="true" />
+          Open to opportunities
+        </div>
+        <span className={styles.scrollHint} aria-hidden="true">Scroll</span>
+      </footer>
     </div>
   );
 }
