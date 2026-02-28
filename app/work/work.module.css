@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap');
+
+/* Reset */
+.wrap {
+  background: #0c0c0c;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  padding: clamp(80px, 12vh, 140px) 7vw 16px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.headerTitle {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+}
+
+.headerCount {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: clamp(10px, 2vw, 22px);
+  letter-spacing: 0.04em;
+}
+
+.headerDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin-top: 12px;
+}
+
+/* Grid */
+.grid {
+  padding: clamp(32px, 5vh, 64px) 7vw clamp(60px, 10vh, 120px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 2.5vw, 32px);
+}
+
+/* Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* opacity: 0 di awal — GSAP ScrollTrigger yang animasikan */
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Card preview box */
+.preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1a1a;
+}
+
+.preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.35s ease;
+  border-radius: inherit;
+}
+
+.preview:hover::after {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* Colored accent background per card */
+.bgPurple  { background: linear-gradient(135deg, #1e1633 0%, #2d1f4e 100%); }
+.bgSlate   { background: linear-gradient(135deg, #111827 0%, #1e293b 100%); }
+.bgEarth   { background: linear-gradient(135deg, #1c1410 0%, #2d2018 100%); }
+.bgForest  { background: linear-gradient(135deg, #0d1f0f 0%, #1a3320 100%); }
+.bgNavy    { background: linear-gradient(135deg, #0d1429 0%, #0f2044 100%); }
+.bgRose    { background: linear-gradient(135deg, #1f0d14 0%, #3d1a24 100%); }
+
+/* Mockup images inside preview */
+.mockupGrid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  padding: 20px;
+  align-items: center;
+  justify-items: center;
+}
+
+.mockupSingle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Placeholder mockup blocks */
+.mockBlock {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mockBlock::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.mockBlock::after {
+  content: '';
+  position: absolute;
+  top: 26px;
+  left: 10px;
+  right: 40%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+/* Accent bar inside mockup */
+.mockAccent {
+  position: absolute;
+  bottom: 12px;
+  left: 10px;
+  right: 10px;
+  height: 28px;
+  border-radius: 6px;
+  opacity: 0.5;
+}
+
+/* Hover scale on preview */
+.previewInner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.preview:hover .previewInner {
+  transform: scale(1.04);
+}
+
+/* Arrow icon on hover */
+.arrowTag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.75) rotate(-45deg);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.preview:hover .arrowTag {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.arrowTag svg {
+  width: 14px;
+  height: 14px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Card meta */
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.projectTitle {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.tag {
+  font-size: clamp(0.65rem, 0.9vw, 0.75rem);
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.tagSep {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .card:nth-child(n) {
+    transition-delay: 0ms;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 80px 5vw 28px;
+  }
+
+  .grid {
+    padding: 24px 5vw 80px;
+  }
+}

@@ -1,0 +1,222 @@
+/* ============================================
+   HOME PAGE — app/page.module.css
+   Navbar styles sudah dipindah ke:
+   components/navbar.module.css
+   ============================================ */
+
+.page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #080808;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Background ────────────────────────────── */
+.noiseCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ── Hero ──────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 7vw;
+}
+
+.heroEyebrow {
+  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+  margin-bottom: clamp(18px, 3vh, 28px);
+  font-weight: 300;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.heroHeadingBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+}
+
+.heroHeading {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.5rem, 5vw, 5.3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: rgba(255, 255, 255, 0.2);
+  max-width: 85vw;
+  margin: 0;
+  padding: 0;
+}
+
+.heroHeadingLine2 {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.5rem, 5vw, 5.3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: rgba(255, 255, 255, 0.2);
+  max-width: 85vw;
+  margin: 0;
+  padding: 0;
+}
+
+.heroWhite {
+  color: #fff;
+}
+
+.heroTyped {
+  color: #d4a843;
+  font-style: italic;
+}
+
+.heroCursor {
+  display: inline-block;
+  width: clamp(2px, 0.3vw, 4px);
+  height: 0.82em;
+  background: #d4a843;
+  margin-left: 5px;
+  vertical-align: middle;
+  border-radius: 2px;
+  animation: blink 1s steps(1) infinite;
+}
+
+.heroSub {
+  margin-top: clamp(20px, 4vh, 38px);
+  font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.3);
+  line-height: 1.75;
+  max-width: clamp(180px, 22vw, 260px);
+  font-weight: 300;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.heroCta {
+  margin-top: clamp(28px, 5vh, 48px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  padding: clamp(9px, 1.5vh, 13px) clamp(20px, 2.5vw, 32px);
+  background: #fff;
+  color: #080808;
+  border: none;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.75rem, 1.1vw, 0.86rem);
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.22s, transform 0.15s;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.btnPrimary:hover {
+  background: #d4a843;
+  transform: translateY(-1px);
+}
+
+.btnGhost {
+  font-size: clamp(0.72rem, 1vw, 0.83rem);
+  color: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.btnGhost:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.btnGhost::after {
+  content: '↓';
+  font-size: 1em;
+}
+
+/* ── Bottom bar ────────────────────────────── */
+.bottomBar {
+  position: absolute;
+  bottom: clamp(20px, 3vh, 34px);
+  left: 7vw;
+  right: 7vw;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.statusDot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(0.65rem, 1vw, 0.74rem);
+  color: rgba(255, 255, 255, 0.26);
+  letter-spacing: 0.08em;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.greenDot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #4ade80;
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.scrollHint {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.16);
+  writing-mode: vertical-rl;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;    transform: scale(1);   }
+  50%       { opacity: 0.45; transform: scale(1.5); }
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: 0 6vw; }
+}
+
+@media (max-width: 520px) {
+  .heroSub { max-width: 90vw; }
+
+  .heroCta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}

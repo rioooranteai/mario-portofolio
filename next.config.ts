@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'export',
+  basePath: "/mario-portofolio",
+  assetPrefix: "/mario-portofolio",
+  images: {
+    unoptimized: true,
+  }
 };
 
 export default nextConfig;
