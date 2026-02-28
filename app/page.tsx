@@ -1,20 +1,11 @@
 "use client";
 
-/**
- * Home Page — app/page.tsx
- * ─────────────────────────
- * Navbar sudah dipindah ke layout.tsx via <Navbar />.
- * File ini hanya berisi konten halaman Home.
- */
-
 import { useEffect, useRef, useState, useCallback } from "react";
 import styles from "./page.module.css";
 
-/* ─── Constants ─────────────────────────────────────────── */
 
 const TYPED_WORDS = ["creative.", "passionate.", "developer.", "designer.", "builder."];
 
-/* ─── Noise helper ──────────────────────────────────────── */
 
 function smoothNoise(x: number, y: number, t: number): number {
   return (
@@ -23,8 +14,6 @@ function smoothNoise(x: number, y: number, t: number): number {
     Math.sin((x + y) * 0.005 + t * 0.15)
   );
 }
-
-/* ─── Component ─────────────────────────────────────────── */
 
 export default function HomePage() {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
@@ -36,7 +25,6 @@ export default function HomePage() {
 
   const [typedWord, setTypedWord] = useState("");
 
-  /* ── Typewriter ────────────────────────────────────────── */
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -69,7 +57,6 @@ export default function HomePage() {
     return () => clearTimeout(timeout);
   }, []);
 
-  /* ── Canvas draw ───────────────────────────────────────── */
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -129,7 +116,6 @@ export default function HomePage() {
     animIdRef.current = requestAnimationFrame(draw);
   }, []);
 
-  /* ── Canvas setup & resize ─────────────────────────────── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -149,7 +135,7 @@ export default function HomePage() {
     };
   }, [draw]);
 
-  /* ── Render ────────────────────────────────────────────── */
+
   return (
     <div className={styles.page}>
       {/* Background canvas */}
@@ -183,10 +169,6 @@ export default function HomePage() {
 
       {/* Bottom bar */}
       <footer className={styles.bottomBar}>
-        <div className={styles.statusDot}>
-          <span className={styles.greenDot} aria-hidden="true" />
-          Open to opportunities
-        </div>
         <span className={styles.scrollHint} aria-hidden="true">Scroll</span>
       </footer>
     </div>
