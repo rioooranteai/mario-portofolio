@@ -5,10 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./work.module.css";
 
-/* Register GSAP plugin */
 gsap.registerPlugin(ScrollTrigger);
-
-/* Types*/
 
 interface Project {
   id: number;
@@ -18,8 +15,6 @@ interface Project {
   accent: string;
   layout: "grid" | "single";
 }
-
-/* Data */
 
 const PROJECTS: Project[] = [
   {
@@ -72,8 +67,6 @@ const PROJECTS: Project[] = [
   },
 ];
 
-/* Sub-components */
-
 function MockupGrid({ accent }: { accent: string }) {
   return (
     <div className={styles.mockupGrid}>
@@ -107,8 +100,6 @@ function ArrowIcon() {
   );
 }
 
-/* Card */
-
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -116,40 +107,55 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     const el = cardRef.current;
     if (!el) return;
 
-    // Stagger: card kanan sedikit delay
     const delay = index % 2 === 1 ? 0.12 : 0;
 
-    gsap.fromTo(
-      el,
-      {
-        opacity: 0,
-        y: 60,
-        scale: 0.96,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.75,
-        delay,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 88%",   // mulai animasi saat card 88% dari atas viewport
-          end: "top 20%",     // selesai saat card 20% dari atas viewport
-          toggleActions: "play reverse play reverse",
-          // toggleActions: "onEnter onLeave onEnterBack onLeaveBack"
-          // play    = scroll ke bawah masuk  → muncul
-          // reverse = scroll ke bawah keluar → menghilang ke atas
-          // play    = scroll ke atas masuk   → muncul lagi
-          // reverse = scroll ke atas keluar  → menghilang ke bawah
-        },
-      }
-    );
+    const ctx = gsap.context(() => {
+      // Set state awal
+      gsap.set(el, { opacity: 0, y: 60, scale: 0.96 });
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 88%",
+
+        // Scroll ke bawah → card masuk viewport → MUNCUL
+        onEnter: () => {
+          gsap.to(el, {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.75, delay,
+            ease: "power3.out",
+          });
+        },
+
+        // Scroll ke atas → card keluar viewport ke bawah → HILANG
+        onLeaveBack: () => {
+          gsap.to(el, {
+            opacity: 0, y: 60, scale: 0.96,
+            duration: 0.45,
+            ease: "power3.in",
+          });
+        },
+
+        // Scroll ke atas → card masuk viewport lagi dari atas → MUNCUL
+        onEnterBack: () => {
+          gsap.to(el, {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.75,
+            ease: "power3.out",
+          });
+        },
+
+        // Scroll ke bawah → card keluar viewport ke atas → HILANG
+        onLeave: () => {
+          gsap.to(el, {
+            opacity: 0, y: -40, scale: 0.96,
+            duration: 0.45,
+            ease: "power3.in",
+          });
+        },
+      });
+    });
+
+    return () => ctx.revert();
   }, [index]);
 
   const bgClass = styles[project.bg as keyof typeof styles];
@@ -184,10 +190,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-/* Page */
-
 export default function WorkPage() {
-  // Refresh ScrollTrigger setelah layout selesai
   useEffect(() => {
     ScrollTrigger.refresh();
     return () => ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -195,23 +198,21 @@ export default function WorkPage() {
 
   return (
     <div className={styles.wrap}>
-
-      {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.headerTitle}>Work</h1>
-          <span className={styles.headerCount}>({PROJECTS.length})</span>
+          <span className={styles.headerEyebrow}>Portfolio — Selected works</span>
+          <div className={styles.headerTitleRow}>
+            <h1 className={styles.headerTitle}>Work</h1>
+          </div>
         </div>
         <div className={styles.headerDivider} role="separator" />
       </header>
 
-      {/* Project grid */}
       <section className={styles.grid} aria-label="Portfolio projects">
         {PROJECTS.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} />
         ))}
       </section>
-
     </div>
   );
 }

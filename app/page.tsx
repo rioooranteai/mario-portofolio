@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import styles from "./page.module.css";
 
 
-const TYPED_WORDS = ["creative.", "passionate.", "developer.", "designer.", "builder."];
+const TYPED_WORDS = ["analyst.", "researcher.", "strategist.", "thinker.", "explorer."];
 
 
 function smoothNoise(x: number, y: number, t: number): number {
@@ -169,7 +169,6 @@ export default function HomePage() {
 
       {/* Bottom bar */}
       <footer className={styles.bottomBar}>
-        <span className={styles.scrollHint} aria-hidden="true">Scroll</span>
       </footer>
     </div>
   );

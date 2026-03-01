@@ -7,42 +7,71 @@
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Header */
 .header {
-  padding: clamp(80px, 12vh, 140px) 7vw 16px;
+  padding: clamp(70px, 10vh, 100px) 0 0;
+  width: 100%;
 }
 
 .headerTop {
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0;
+  padding: 0 7vw;
+  width: 100%;
+  margin: 40 0 0 0;
+}
+
+.headerEyebrow {
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 300;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: -0.01vw;
 }
 
 .headerTitle {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  font-family: 'Clash Display', 'Syne', sans-serif;
+  font-size: clamp(0rem, 8vw, 8rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 0.75; 
   color: #fff;
+  text-transform: uppercase;
+  margin: 20 0 40 0;
 }
 
 .headerCount {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: clamp(10px, 2vw, 22px);
-  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.06em;
+  align-self: flex-end;
+  padding-bottom: clamp(8px, 1.5vw, 18px);
 }
 
 .headerDivider {
   width: 100%;
-  height: 1px;
+  height: 2px;
   background: rgba(255, 255, 255, 0.07);
-  margin-top: 12px;
+  margin-top: -0vw;
 }
 
 /* Grid */
@@ -58,7 +87,6 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  /* opacity: 0 di awal — GSAP ScrollTrigger yang animasikan */
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -87,15 +115,13 @@
   background: rgba(0, 0, 0, 0.28);
 }
 
-/* Colored accent background per card */
-.bgPurple  { background: linear-gradient(135deg, #1e1633 0%, #2d1f4e 100%); }
-.bgSlate   { background: linear-gradient(135deg, #111827 0%, #1e293b 100%); }
-.bgEarth   { background: linear-gradient(135deg, #1c1410 0%, #2d2018 100%); }
-.bgForest  { background: linear-gradient(135deg, #0d1f0f 0%, #1a3320 100%); }
-.bgNavy    { background: linear-gradient(135deg, #0d1429 0%, #0f2044 100%); }
-.bgRose    { background: linear-gradient(135deg, #1f0d14 0%, #3d1a24 100%); }
+.bgPurple { background: linear-gradient(135deg, #1e1633 0%, #2d1f4e 100%); }
+.bgSlate  { background: linear-gradient(135deg, #111827 0%, #1e293b 100%); }
+.bgEarth  { background: linear-gradient(135deg, #1c1410 0%, #2d2018 100%); }
+.bgForest { background: linear-gradient(135deg, #0d1f0f 0%, #1a3320 100%); }
+.bgNavy   { background: linear-gradient(135deg, #0d1429 0%, #0f2044 100%); }
+.bgRose   { background: linear-gradient(135deg, #1f0d14 0%, #3d1a24 100%); }
 
-/* Mockup images inside preview */
 .mockupGrid {
   position: absolute;
   inset: 0;
@@ -117,7 +143,6 @@
   padding: 24px;
 }
 
-/* Placeholder mockup blocks */
 .mockBlock {
   width: 100%;
   height: 100%;
@@ -131,9 +156,7 @@
 .mockBlock::before {
   content: '';
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
+  top: 10px; left: 10px; right: 10px;
   height: 6px;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 3px;
@@ -142,26 +165,20 @@
 .mockBlock::after {
   content: '';
   position: absolute;
-  top: 26px;
-  left: 10px;
-  right: 40%;
+  top: 26px; left: 10px; right: 40%;
   height: 4px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 2px;
 }
 
-/* Accent bar inside mockup */
 .mockAccent {
   position: absolute;
-  bottom: 12px;
-  left: 10px;
-  right: 10px;
+  bottom: 12px; left: 10px; right: 10px;
   height: 28px;
   border-radius: 6px;
   opacity: 0.5;
 }
 
-/* Hover scale on preview */
 .previewInner {
   width: 100%;
   height: 100%;
@@ -172,14 +189,11 @@
   transform: scale(1.04);
 }
 
-/* Arrow icon on hover */
 .arrowTag {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 16px; right: 16px;
   z-index: 10;
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
@@ -197,16 +211,12 @@
 }
 
 .arrowTag svg {
-  width: 14px;
-  height: 14px;
-  stroke: #fff;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  width: 14px; height: 14px;
+  stroke: #fff; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
-/* Card meta */
+/* ── Card meta ─────────────────────────────── */
 .meta {
   display: flex;
   flex-direction: column;
@@ -222,23 +232,53 @@
   line-height: 1.2;
 }
 
+.projectDesc {
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 300;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.yearBadge {
+  position: absolute;
+  bottom: 14px; right: 16px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.1em;
+  font-family: 'DM Sans', sans-serif;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
+  margin-top: 0;
 }
 
 .tag {
-  font-size: clamp(0.65rem, 0.9vw, 0.75rem);
-  color: rgba(255, 255, 255, 0.35);
-  font-weight: 300;
+  font-size: clamp(0.62rem, 0.85vw, 0.72rem);
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
   letter-spacing: 0.04em;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.tag:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .tagSep {
-  color: rgba(255, 255, 255, 0.15);
-  font-size: 0.7rem;
+  display: none;
 }
 
 /* Responsive */
@@ -247,18 +287,9 @@
     grid-template-columns: 1fr;
     gap: 40px;
   }
-
-  .card:nth-child(n) {
-    transition-delay: 0ms;
-  }
 }
 
 @media (max-width: 480px) {
-  .header {
-    padding: 80px 5vw 28px;
-  }
-
-  .grid {
-    padding: 24px 5vw 80px;
-  }
+  .header { padding: 80px 5vw 28px; }
+  .grid   { padding: 24px 5vw 80px; }
 }
