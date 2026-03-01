@@ -281,6 +281,27 @@
   display: none;
 }
 
+/* Card sebagai link — hilangkan default link style */
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Thumbnail image menggantikan mockup */
+.thumbnailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+}
+
+.preview:hover .thumbnailImg {
+  transform: scale(1.04);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .grid {

@@ -1,92 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./work.module.css";
+import projects from "@/data/projects.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Project {
-  id: number;
+// Shape yang diambil dari projects.json — hanya yang dibutuhkan card
+interface ProjectCard {
+  slug: string;
   title: string;
-  tags: string[];
-  bg: string;
-  accent: string;
-  layout: "grid" | "single";
-}
-
-const PROJECTS: Project[] = [
-  {
-    id: 1,
-    title: "Building a seamless e-commerce checkout flow.",
-    tags: ["UX Design", "Prototyping", "User Testing"],
-    bg: "bgPurple",
-    accent: "#7c5cbf",
-    layout: "grid",
-  },
-  {
-    id: 2,
-    title: "Data dashboard for real-time analytics.",
-    tags: ["Product Design", "Design System", "Concepting"],
-    bg: "bgSlate",
-    accent: "#4a90d9",
-    layout: "grid",
-  },
-  {
-    id: 3,
-    title: "Brand identity & design system for a fintech.",
-    tags: ["Branding", "Design System", "UI Design"],
-    bg: "bgEarth",
-    accent: "#d4a843",
-    layout: "single",
-  },
-  {
-    id: 4,
-    title: "Mobile app for sustainable daily habits.",
-    tags: ["App Design", "User Research", "Motion"],
-    bg: "bgForest",
-    accent: "#4ade80",
-    layout: "grid",
-  },
-  {
-    id: 5,
-    title: "Interactive onboarding for a SaaS platform.",
-    tags: ["UX Design", "Interaction Design", "Copywriting"],
-    bg: "bgNavy",
-    accent: "#60a5fa",
-    layout: "single",
-  },
-  {
-    id: 6,
-    title: "Accessibility-first redesign for a health app.",
-    tags: ["Product Design", "A11Y", "User Research"],
-    bg: "bgRose",
-    accent: "#f87171",
-    layout: "grid",
-  },
-];
-
-function MockupGrid({ accent }: { accent: string }) {
-  return (
-    <div className={styles.mockupGrid}>
-      {[0, 1, 2, 3].map((i) => (
-        <div key={i} className={styles.mockBlock}>
-          <div className={styles.mockAccent} style={{ background: accent }} />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function MockupSingle({ accent }: { accent: string }) {
-  return (
-    <div className={styles.mockupSingle}>
-      <div className={styles.mockBlock} style={{ width: "70%", height: "80%" }}>
-        <div className={styles.mockAccent} style={{ background: accent, height: 40 }} />
-      </div>
-    </div>
-  );
+  category: string;
+  year: string;
+  thumbnail: string;
+  techStack: string[];
 }
 
 function ArrowIcon() {
@@ -100,7 +30,7 @@ function ArrowIcon() {
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project, index }: { project: ProjectCard; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,47 +40,22 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     const delay = index % 2 === 1 ? 0.12 : 0;
 
     const ctx = gsap.context(() => {
-      // Set state awal
       gsap.set(el, { opacity: 0, y: 60, scale: 0.96 });
 
       ScrollTrigger.create({
         trigger: el,
         start: "top 88%",
-
-        // Scroll ke bawah → card masuk viewport → MUNCUL
         onEnter: () => {
-          gsap.to(el, {
-            opacity: 1, y: 0, scale: 1,
-            duration: 0.75, delay,
-            ease: "power3.out",
-          });
+          gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.75, delay, ease: "power3.out" });
         },
-
-        // Scroll ke atas → card keluar viewport ke bawah → HILANG
         onLeaveBack: () => {
-          gsap.to(el, {
-            opacity: 0, y: 60, scale: 0.96,
-            duration: 0.45,
-            ease: "power3.in",
-          });
+          gsap.to(el, { opacity: 0, y: 60, scale: 0.96, duration: 0.45, ease: "power3.in" });
         },
-
-        // Scroll ke atas → card masuk viewport lagi dari atas → MUNCUL
         onEnterBack: () => {
-          gsap.to(el, {
-            opacity: 1, y: 0, scale: 1,
-            duration: 0.75,
-            ease: "power3.out",
-          });
+          gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: "power3.out" });
         },
-
-        // Scroll ke bawah → card keluar viewport ke atas → HILANG
         onLeave: () => {
-          gsap.to(el, {
-            opacity: 0, y: -40, scale: 0.96,
-            duration: 0.45,
-            ease: "power3.in",
-          });
+          gsap.to(el, { opacity: 0, y: -40, scale: 0.96, duration: 0.45, ease: "power3.in" });
         },
       });
     });
@@ -158,35 +63,43 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     return () => ctx.revert();
   }, [index]);
 
-  const bgClass = styles[project.bg as keyof typeof styles];
-
   return (
-    <article ref={cardRef} className={styles.card} aria-label={project.title}>
-      <div className={`${styles.preview} ${bgClass}`}>
-        <div className={styles.previewInner}>
-          {project.layout === "grid" ? (
-            <MockupGrid accent={project.accent} />
-          ) : (
-            <MockupSingle accent={project.accent} />
-          )}
-        </div>
-        <ArrowIcon />
-      </div>
+    <Link href={`/work/${project.slug}`} className={styles.cardLink}>
+      <article ref={cardRef} className={styles.card} aria-label={project.title}>
 
-      <div className={styles.meta}>
-        <h2 className={styles.projectTitle}>{project.title}</h2>
-        <div className={styles.tags} role="list" aria-label="Project tags">
-          {project.tags.map((tag, i) => (
-            <span key={tag} role="listitem">
-              <span className={styles.tag}>{tag}</span>
-              {i < project.tags.length - 1 && (
-                <span className={styles.tagSep} aria-hidden="true"> /</span>
-              )}
-            </span>
-          ))}
+        {/* Thumbnail */}
+        <div className={styles.preview}>
+          <div className={styles.previewInner}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className={styles.thumbnailImg}
+              draggable={false}
+            />
+          </div>
+          <ArrowIcon />
+          <span className={styles.yearBadge}>{project.year}</span>
         </div>
-      </div>
-    </article>
+
+        {/* Meta */}
+        <div className={styles.meta}>
+          <h2 className={styles.projectTitle}>{project.title}</h2>
+          <p className={styles.projectDesc}>{project.category}</p>
+          <div className={styles.tags} role="list" aria-label="Tech stack">
+            {project.techStack.map((tech, i) => (
+              <span key={tech} role="listitem">
+                <span className={styles.tag}>{tech}</span>
+                {i < project.techStack.length - 1 && (
+                  <span className={styles.tagSep} aria-hidden="true"> /</span>
+                )}
+              </span>
+            ))}
+          </div>
+        </div>
+
+      </article>
+    </Link>
   );
 }
 
@@ -209,8 +122,8 @@ export default function WorkPage() {
       </header>
 
       <section className={styles.grid} aria-label="Portfolio projects">
-        {PROJECTS.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} />
+        {(projects as ProjectCard[]).map((project, i) => (
+          <ProjectCard key={project.slug} project={project} index={i} />
         ))}
       </section>
     </div>

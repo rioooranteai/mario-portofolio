@@ -3,12 +3,13 @@
 import { useRef, useEffect, useState } from "react";
 import styles from "./project.module.css";
 
-// ─── Types
+// Types
 export interface ProjectData {
-  id: string;
+  slug: string;
   title: string;
   category: string;
   year: string;
+  thumbnail: string;
   overview: string;
   problem: string;
   solution: string;
@@ -23,34 +24,8 @@ export interface ProjectData {
   }[];
 }
 
-// ─── Dummy data (ganti dengan data JSON kamu nanti) 
-const PROJECT: ProjectData = {
-  id: "comprende",
-  title: "Comprendé",
-  category: "Property Management Website",
-  year: "2024",
-  overview:
-    "Comprendé is a full-featured property management platform built for a New Zealand-based real estate agency. The goal was to create a digital experience that felt as refined and trustworthy as the brand itself — balancing rich visual storytelling with practical listing and inquiry workflows.",
-  problem:
-    "The client was operating with an outdated website that failed to reflect the premium positioning of their brand. Listings were buried under poor navigation, the mobile experience was broken, and the inquiry flow had a significant drop-off rate. Prospective clients couldn't find what they needed, and the team couldn't manage content without a developer.",
-  solution:
-    "We redesigned the platform from the ground up with a content-first architecture. A custom CMS allowed the team to manage listings, agents, and editorial content independently. The new design language leaned into warm typography and generous white space to communicate reliability without coldness.",
-  techStack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS", "Vercel"],
-  challenges:
-    "The biggest engineering challenge was building a real-time listing sync with a third-party property data provider that had an inconsistent API. We implemented a resilient background job system with automatic retries and a local cache layer to ensure the UI never showed stale or broken data — even during sync failures.",
-  results:
-    "Within 60 days of launch, the client reported a 3× increase in online inquiries and a measurable reduction in time-to-contact for new leads. The internal team now manages all content without developer intervention, cutting operational overhead significantly.",
-  gallery: [
-    { id: "g1", src: "/images/comprende-1.jpg", alt: "Homepage hero", caption: "Homepage redesign" },
-    { id: "g2", src: "/images/comprende-2.jpg", alt: "Listing page", caption: "Property listing view" },
-    { id: "g3", src: "/images/comprende-3.jpg", alt: "About page", caption: "About the team" },
-    { id: "g4", src: "/images/comprende-4.jpg", alt: "Property detail", caption: "Property detail page" },
-    { id: "g5", src: "/images/comprende-5.jpg", alt: "Why sell section", caption: "Why sell with us" },
-  ],
-};
-
-// ─── Component 
-export default function ProjectDetail({ project = PROJECT }: { project?: ProjectData }) {
+// Component
+export default function ProjectDetail({ project }: { project: ProjectData }) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -91,27 +66,23 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
   return (
     <div className={styles.wrap}>
 
-      {/* ── HERO  */}
+      {/* HERO */}
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <span className={styles.categoryLabel}>{project.category}</span>
-
           <h1 className={styles.heroTitle}>{project.title}</h1>
-
           <div className={styles.heroMeta}>
             <span className={styles.heroDivider} />
             <span className={styles.heroYear}>{project.year}</span>
           </div>
         </div>
-
-        {/* decorative line */}
         <div className={styles.heroBorderBottom} />
       </header>
 
-      {/* ── ARTICLE */}
+      {/* ARTICLE  */}
       <main className={styles.article}>
 
-        {/* Overview */}
+        {/* 01 Overview */}
         <section className={styles.section}>
           <div className={styles.sectionLabel}>
             <span className={styles.labelIndex}>01</span>
@@ -124,7 +95,7 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
 
         <div className={styles.sectionDivider} />
 
-        {/* Problem & Solution */}
+        {/* 02 Problem & Solution */}
         <section className={styles.section}>
           <div className={styles.sectionLabel}>
             <span className={styles.labelIndex}>02</span>
@@ -146,7 +117,7 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
 
         <div className={styles.sectionDivider} />
 
-        {/* Tech Stack */}
+        {/* 03 Tech Stack */}
         <section className={styles.section}>
           <div className={styles.sectionLabel}>
             <span className={styles.labelIndex}>03</span>
@@ -163,7 +134,7 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
 
         <div className={styles.sectionDivider} />
 
-        {/* Challenges & Results */}
+        {/* 04 Challenges & Results */}
         <section className={styles.section}>
           <div className={styles.sectionLabel}>
             <span className={styles.labelIndex}>04</span>
@@ -185,7 +156,7 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
 
       </main>
 
-      {/* ── GALLERY ──────────────────────────────────────────────────────── */}
+      {/*  GALLERY  */}
       <section className={styles.gallerySection}>
         <div className={styles.galleryHeader}>
           <h2 className={styles.galleryTitle}>Showcase</h2>
@@ -207,7 +178,6 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
           </div>
         </div>
 
-        {/* Track */}
         <div
           ref={galleryRef}
           className={`${styles.galleryTrack} ${isDragging ? styles.grabbing : ""}`}
@@ -218,19 +188,17 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
         >
           {project.gallery.map((item, idx) => (
             <div key={item.id} className={styles.galleryCard}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <div className={styles.galleryImgWrap}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.src}
                   alt={item.alt}
                   className={styles.galleryImg}
                   draggable={false}
                   onError={(e) => {
-                    // fallback placeholder
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
-                {/* placeholder shown when image missing */}
                 <div className={styles.galleryPlaceholder}>
                   <span className={styles.placeholderIdx}>{String(idx + 1).padStart(2, "0")}</span>
                 </div>
@@ -242,7 +210,6 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
           ))}
         </div>
 
-        {/* Dots */}
         <div className={styles.dots}>
           {project.gallery.map((_, i) => (
             <button
@@ -259,6 +226,7 @@ export default function ProjectDetail({ project = PROJECT }: { project?: Project
   );
 }
 
+// Icons 
 function ArrowLeft() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -266,6 +234,7 @@ function ArrowLeft() {
     </svg>
   );
 }
+
 function ArrowRight() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

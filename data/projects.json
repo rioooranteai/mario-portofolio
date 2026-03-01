@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "safana",
+    "title": "Safana — System Analytics Fauna Nusantara",
+    "category": "AI Conservation Platform",
+    "year": "2025",
+    "thumbnail": "/mario-portofolio/images/projects/safana/thumbnail.png",
+    "overview": "SAFaNa (System Analytics Fauna Nusantara) is a web platform that leverages computer vision to identify endangered wildlife species from user-uploaded photos. Built in response to Indonesia's growing illegal wildlife trade crisis — where over 113,000 illegal animal listings were recorded online between 2015 and 2023 — the platform bridges the gap between public awareness and conservation action.",
+    "problem": "Indonesia is home to 680 endemic species, 189 of which are now threatened with extinction. Despite the scale of the crisis, no accessible digital tool existed for the public to identify protected species in real-time or report findings directly to conservation authorities (BKSDA). The lack of this infrastructure allowed illegal wildlife trade to thrive largely undetected.",
+    "solution": "A web-based detection system where users upload a photo and receive instant identification of whether the animal is a protected species — along with its conservation status, habitat data, ecological role, and the nearest BKSDA office to report the finding. An interactive map visualizes community-sourced detection data across Indonesia.",
+    "techStack": ["TensorFlow", "RetinaNet (ResNet-50-FPN)", "Roboflow", "Node.js (Hapi Framework)"],
+    "challenges": "The core engineering challenge was building a custom RetinaNet object detection model from scratch — without relying on pre-built model hubs — trained on a self-annotated dataset of 11 Indonesian endangered species. Balancing model accuracy with real-time inference performance required extensive fine-tuning of the ResNet-50-FPN backbone on domain-specific wildlife imagery.",
+    "results": "The platform successfully detects 11 endemic endangered species with high confidence scores, integrates real-time geolocation to surface the nearest BKSDA contact, and provides a public detection map for community-based wildlife monitoring. The project was completed within a one-month development cycle.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/mario-portofolio/images/projects/safana/01.jpg",
+        "alt": "Homepage",
+        "caption": "Landing page & upload interface"
+      },
+      {
+        "id": "g2",
+        "src": "/mario-portofolio/images/projects/safana/02.jpg",
+        "alt": "Detection result",
+        "caption": "Detection result with bounding box"
+      },
+      {
+        "id": "g3",
+        "src": "/mario-portofolio/images/projects/safana/03.jpg",
+        "alt": "Species detail",
+        "caption": "Species detail & conservation info"
+      },
+      {
+        "id": "g4",
+        "src": "/mario-portofolio/images/projects/safana/04.jpg",
+        "alt": "BKSDA locator",
+        "caption": "Nearest BKSDA locator"
+      },
+      {
+        "id": "g5",
+        "src": "/mario-portofolio/images/projects/safana/05.jpg",
+        "alt": "Distribution map",
+        "caption": "Interactive detection map"
+      }
+    ]
+  }
+]
