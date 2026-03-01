@@ -7,6 +7,7 @@ import styles from "./project.module.css";
 export interface ProjectData {
   slug: string;
   title: string;
+  secondaryTitle: string;
   category: string;
   year: string;
   thumbnail: string;
@@ -189,7 +190,6 @@ export default function ProjectDetail({ project }: { project: ProjectData }) {
           {project.gallery.map((item, idx) => (
             <div key={item.id} className={styles.galleryCard}>
               <div className={styles.galleryImgWrap}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.src}
                   alt={item.alt}

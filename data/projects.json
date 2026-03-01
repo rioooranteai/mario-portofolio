@@ -1,7 +1,8 @@
 [
   {
     "slug": "safana",
-    "title": "Safana — System Analytics Fauna Nusantara",
+    "title": "Safana",
+    "secondaryTitle": "Safana — System Analytics Fauna Nusantara",
     "category": "AI Conservation Platform",
     "year": "2025",
     "thumbnail": "/mario-portofolio/images/projects/safana/thumbnail.png",
@@ -14,7 +15,7 @@
     "gallery": [
       {
         "id": "g1",
-        "src": "/mario-portofolio/images/projects/safana/01.jpg",
+        "src": "/mario-portofolio/images/projects/safana/01.png",
         "alt": "Homepage",
         "caption": "Landing page & upload interface"
       },

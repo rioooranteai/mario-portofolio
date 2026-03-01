@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap');
 
-/* ── Wrap  */
+/* Wrap */
 .wrap {
   background: #080808;
   color: #fff;
@@ -9,7 +9,7 @@
   overflow-x: hidden;
 }
 
-/* ── HERO  */
+/* HERO */
 .hero {
   padding: clamp(110px, 14vh, 160px) 7vw 0;
   position: relative;
@@ -193,7 +193,7 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* GALLERY  */
+/* GALLERY */
 .gallerySection {
   margin-top: clamp(48px, 8vh, 96px);
   padding-bottom: clamp(80px, 12vh, 140px);
@@ -201,15 +201,15 @@
 
 .galleryHeader {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   padding: 0 7vw;
-  margin-bottom: clamp(28px, 4vh, 48px);
+  margin-bottom: clamp(2px, 2vh, 4px);
 }
 
 .galleryTitle {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(2.4rem, 5vw, 5rem);
+  font-size: clamp(2.4rem, 5vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.035em;
   color: #fff;
@@ -252,9 +252,10 @@
   -webkit-overflow-scrolling: touch;
   cursor: grab;
   scrollbar-width: none;
-  padding: 0 7vw;
-  /* peek next card */
-  padding-right: 14vw;
+  /* card pertama sejajar dengan konten, kanan diberi ruang peek */
+  padding: 0 3vw;
+  padding-right: calc(7vw + clamp(14px, 2vw, 24px));
+  margin-left: 7vw;
 }
 
 .galleryTrack::-webkit-scrollbar {
@@ -282,20 +283,7 @@
   background: #111;
 }
 
-.galleryImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  user-select: none;
-}
-
-.galleryImgWrap:hover .galleryImg {
-  transform: scale(1.04);
-}
-
-/* Placeholder when image fails to load */
+/* Placeholder — di bawah sebagai background */
 .galleryPlaceholder {
   position: absolute;
   inset: 0;
@@ -303,6 +291,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 0;
+}
+
+/* Gambar — di atas placeholder */
+.galleryImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+}
+
+.galleryImgWrap:hover .galleryImg {
+  transform: scale(1.04);
 }
 
 .placeholderIdx {
@@ -350,7 +356,7 @@
   transform: none;
 }
 
-/*  Responsive  */
+/* Responsive */
 @media (max-width: 900px) {
   .section {
     grid-template-columns: 1fr;

@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface ProjectCard {
   slug: string;
   title: string;
+  secondaryTitle: string,
   category: string;
   year: string;
   thumbnail: string;
@@ -84,8 +85,7 @@ function ProjectCard({ project, index }: { project: ProjectCard; index: number }
 
         {/* Meta */}
         <div className={styles.meta}>
-          <h2 className={styles.projectTitle}>{project.title}</h2>
-          <p className={styles.projectDesc}>{project.category}</p>
+          <h2 className={styles.projectTitle}>{project.secondaryTitle}</h2>
           <div className={styles.tags} role="list" aria-label="Tech stack">
             {project.techStack.map((tech, i) => (
               <span key={tech} role="listitem">
