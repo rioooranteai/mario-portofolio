@@ -1,9 +1,3 @@
-/* ============================================
-   HOME PAGE — app/page.module.css
-   Navbar styles sudah dipindah ke:
-   components/navbar.module.css
-   ============================================ */
-
 .page {
   position: relative;
   width: 100vw;
@@ -14,14 +8,7 @@
   font-family: 'DM Sans', sans-serif;
 }
 
-/* ── Background ────────────────────────────── */
-.noiseCanvas {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-/* ── Hero ──────────────────────────────────── */
+/* Hero */
 .hero {
   position: relative;
   z-index: 10;
@@ -154,7 +141,7 @@
   font-size: 1em;
 }
 
-/* ── Bottom bar ────────────────────────────── */
+/* Bottom bar */
 .bottomBar {
   position: absolute;
   bottom: clamp(20px, 3vh, 34px);
@@ -166,47 +153,13 @@
   align-items: flex-end;
 }
 
-.statusDot {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: clamp(0.65rem, 1vw, 0.74rem);
-  color: rgba(255, 255, 255, 0.26);
-  letter-spacing: 0.08em;
-  font-family: 'DM Sans', sans-serif;
-}
-
-.greenDot {
-  width: 6px;
-  height: 6px;
-  background: #4ade80;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #4ade80;
-  animation: pulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.scrollHint {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.16);
-  writing-mode: vertical-rl;
-  font-family: 'DM Sans', sans-serif;
-}
-
-/* ── Keyframes ─────────────────────────────── */
+/* Keyframes */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1;    transform: scale(1);   }
-  50%       { opacity: 0.45; transform: scale(1.5); }
-}
-
-/* ── Responsive ────────────────────────────── */
+/* Responsive  */
 @media (max-width: 768px) {
   .hero { padding: 0 6vw; }
 }
