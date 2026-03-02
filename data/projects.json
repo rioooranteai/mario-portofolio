@@ -51,7 +51,7 @@
     "title": "Veriface",
     "secondaryTitle": "Veriface — eKYC Real-time Identity Verification System",
     "category": "AI Identity Verification",
-    "year": "2026",
+    "year": "2026 (Ongoing)",
     "thumbnail": "/mario-portofolio/images/projects/veriface/thumbnail.png",
     "overview": "Veriface is a real-time eKYC (electronic Know Your Customer) web platform that automates identity verification through two stages: KTP card scanning via OCR and face liveness detection via webcam. The system is designed to eliminate manual document verification, enabling instant, camera-based identity authentication directly from the browser.",
     "problem": "Manual identity verification processes are slow, error-prone, and difficult to scale — particularly for digital onboarding flows that require real-time document reading and liveness checks. No lightweight, self-hostable eKYC pipeline existed that combined KTP-specific OCR with live face verification in a single browser session.",
@@ -71,6 +71,47 @@
         "src": "/mario-portofolio/images/projects/veriface/02.png",
         "alt": "Scan KTP page",
         "caption": "Real-time KTP scan with YOLO bounding box & OCR result panel"
+      }
+    ]
+  },
+
+  {
+    "slug": "leafscan",
+    "title": "LeafScan",
+    "secondaryTitle": "LeafScan — AI-Powered Corn Leaf Disease Detection",
+    "category": "AI Plant Disease Detection",
+    "year": "2024",
+    "thumbnail": "/mario-portofolio/images/projects/leafscan/thumbnail.png",
+    "overview": "LeafScan is a mobile application that uses deep learning to automatically detect diseases on corn leaves from user-uploaded photos. Built to address the limitations of slow and inaccurate manual diagnosis in Indonesian agriculture, the app covers four conditions — Common Rust, Gray Leaf Spot, Blight, and Healthy — and delivers detection results alongside GPT-powered treatment recommendations.",
+    "problem": "Corn is a critical food commodity in Indonesia, yet farmers frequently fail to identify leaf diseases early enough to prevent significant crop loss. No accessible, AI-powered mobile tool existed to help farmers and agriculture students perform fast, accurate disease diagnosis in the field without relying on manual visual inspection.",
+    "solution": "Users upload or capture a photo of a corn leaf through the Flutter mobile app. The image is sent to a backend running YOLOv8 combined with Slicing Aided Hyper Inference (SAHI) — which slices the image into overlapping patches to improve detection of small lesions — and returns annotated results with disease classification, diagnostic details, and treatment recommendations generated via the OpenAI GPT API.",
+    "techStack": ["YOLOv8", "SAHI", "Roboflow", "FastAPI", "Flutter", "GCP", "Firebase", "OpenAI"],
+    "challenges": "The core technical challenge was detecting small disease lesions — particularly Common Rust — which are difficult for standard object detection models to localize accurately. Lowering the confidence threshold increased false positives, while standard full-image inference missed small spots. Implementing SAHI significantly improved small-object recall by processing overlapping image slices with Non-Maximum Suppression (NMS) to merge results, at the cost of increased inference latency.",
+    "results": "SAHI implementation showed dramatic improvement in small-lesion detection — without SAHI only 1 bounding box was detected per frame, while SAHI consistently surfaced 6+ detections across Blight, Rust, and Gray Leaf Spot classes. The model achieved all-classes precision of 1.00 at confidence 0.767, with training loss steadily declining across ~150 epochs and mAP metrics converging stably. Blight detection was strongest across both precision and recall curves, while Rust remained a known weak class. The research was published as a peer-reviewed academic paper co-authored by the team at Universitas Hasanuddin.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/mario-portofolio/images/projects/leafscan/01.png",
+        "alt": "Splash screen",
+        "caption": "Splash screen"
+      },
+      {
+        "id": "g2",
+        "src": "/mario-portofolio/images/projects/leafscan/02.png",
+        "alt": "Login & Register",
+        "caption": "Login & register page"
+      },
+      {
+        "id": "g3",
+        "src": "/mario-portofolio/images/projects/leafscan/03.png",
+        "alt": "Detection result",
+        "caption": "Detection result & history page"
+      },
+      {
+        "id": "g4",
+        "src": "/mario-portofolio/images/projects/leafscan/04.png",
+        "alt": "Disease detail",
+        "caption": "Disease detail with bounding box & treatment info"
       }
     ]
   }
