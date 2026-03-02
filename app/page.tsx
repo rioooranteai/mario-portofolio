@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./page.module.css";
+import Link from "next/link";
 
 const TYPED_WORDS = ["analyst.", "researcher.", "strategist.", "thinker.", "explorer."];
 
@@ -66,8 +67,7 @@ export default function HomePage() {
         </p>
 
         <div className={styles.heroCta}>
-          <button className={styles.btnPrimary}>View My Work</button>
-          <button className={styles.btnGhost}>Scroll down</button>
+          <Link href="/work" className={styles.btnPrimary}>View My Work</Link>
         </div>
       </main>
 

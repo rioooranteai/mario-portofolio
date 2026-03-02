@@ -59,7 +59,6 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
-
     </nav>
   );
 }

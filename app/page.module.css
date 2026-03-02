@@ -111,6 +111,9 @@
   transition: background 0.22s, transform 0.15s;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
 }
 
 .btnPrimary:hover {

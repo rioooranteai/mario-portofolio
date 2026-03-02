@@ -21,25 +21,25 @@
       },
       {
         "id": "g2",
-        "src": "/mario-portofolio/images/projects/safana/02.jpg",
+        "src": "/mario-portofolio/images/projects/safana/02.png",
         "alt": "Detection result",
         "caption": "Detection result with bounding box"
       },
       {
         "id": "g3",
-        "src": "/mario-portofolio/images/projects/safana/03.jpg",
+        "src": "/mario-portofolio/images/projects/safana/03.png",
         "alt": "Species detail",
         "caption": "Species detail & conservation info"
       },
       {
         "id": "g4",
-        "src": "/mario-portofolio/images/projects/safana/04.jpg",
+        "src": "/mario-portofolio/images/projects/safana/04.png",
         "alt": "BKSDA locator",
         "caption": "Nearest BKSDA locator"
       },
       {
         "id": "g5",
-        "src": "/mario-portofolio/images/projects/safana/05.jpg",
+        "src": "/mario-portofolio/images/projects/safana/05.png",
         "alt": "Distribution map",
         "caption": "Interactive detection map"
       }
