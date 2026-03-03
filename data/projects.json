@@ -114,5 +114,66 @@
         "caption": "Disease detail with bounding box & treatment info"
       }
     ]
-  }
+  },
+
+  {
+  "slug": "valemart",
+  "title": "Vale Mart",
+  "secondaryTitle": "Vale Mart — Multimodal Fashion Search & Recommendation",
+  "category": "AI / Information Retrieval",
+  "year": "2026",
+  "thumbnail": "/mario-portofolio/images/projects/valemart/thumbnail.png",
+  "overview": "Vale Mart is a fashion e-commerce application built around a multimodal AI retrieval system. Users can search for products by image, natural language, or a combination of both. Every product detail page also surfaces two sets of AI-generated recommendations — visually similar items via image embedding and semantically related items via text embedding — retrieved in parallel from a Pinecone vector database.",
+  "problem": "Keyword-based search fails when users have a visual reference but no words to describe it, or when they want to explore products similar in style but described differently. Standard recommendation systems also treat product similarity as one-dimensional, unable to distinguish between visual likeness and semantic relevance.",
+  "solution": "Search queries are encoded by SigLIP (image, 768-dim) and BGE-M3 (text, 1024-dim) into separate Pinecone indexes. In hybrid mode, both retrievals run concurrently via ThreadPoolExecutor and results are fused using Reciprocal Rank Fusion with a user-adjustable alpha weight. Text results are further reranked using Pinecone's bge-reranker-v2-m3 inference API. On the product detail page, the same dual-retrieval pipeline fetches IMAGE MATCH and DESCRIPTION MATCH recommendations in parallel.",
+  "techStack": [
+    "PyTorch",
+    "SigLIP",
+    "BGE-M3",
+    "Pinecone",
+    "FastAPI",
+    "Python",
+    "Docker"
+  ],
+  "challenges": "The primary challenge was fusing results from two incompatible embedding spaces — SigLIP's 768-dim visual embeddings and BGE-M3's 1024-dim semantic embeddings — into a single ranked list. Weighted score fusion was not viable because cosine similarity scores and reranker scores operate on different scales. Reciprocal Rank Fusion was adopted as it is score-agnostic and depends only on rank position, making it robust across heterogeneous retrieval sources. A second challenge was serving both large models efficiently: loading SigLIP and BGE-M3 into memory is expensive, so a singleton EmbeddingService was implemented to ensure models are loaded once at startup and reused across all requests.",
+  "results": "Image-only search completes in under 1 second (0.99s measured), while text search with reranking completes in approximately 2 seconds — both running on GPU. The retrieval quality is strong: image search consistently returns visually coherent results, and text search handles natural language queries with semantic variation (e.g. sleeve style differences for 'black shirt for woman'). The recommendation system on each product page surfaces two independent sets of 5 products — one by visual similarity, one by semantic relevance — providing complementary discovery paths.",
+  "gallery": [
+    {
+      "id": "g1",
+      "src": "/mario-portofolio/images/projects/valemart/01.png",
+      "alt": "Shop page — image search",
+      "caption": "Image search: upload a product photo to find visually similar items"
+    },
+    {
+      "id": "g2",
+      "src": "/mario-portofolio/images/projects/valemart/02.png",
+      "alt": "Shop page — search results grid",
+      "caption": "Search results grid with IMAGE mode badge and 12 product cards"
+    },
+    {
+      "id": "g3",
+      "src": "/mario-portofolio/images/projects/valemart/03.png",
+      "alt": "Product detail — visually similar recommendations",
+      "caption": "Product detail: Visually Similar section (IMAGE MATCH)"
+    },
+    {
+      "id": "g4",
+      "src": "/mario-portofolio/images/projects/valemart/04.png",
+      "alt": "Product detail — description match recommendations",
+      "caption": "Product detail: Related Products section (DESCRIPTION MATCH)"
+    },
+    {
+      "id": "g5",
+      "src": "/mario-portofolio/images/projects/valemart/05.png",
+      "alt": "Shop page — empty state",
+      "caption": "Initial state with upload area and search form"
+    },
+    {
+      "id": "g6",
+      "src": "/mario-portofolio/images/projects/valemart/06.png",
+      "alt": "Shop page — text search results",
+      "caption": "Text search: 'black shirt for woman' with semantic retrieval results"
+    }
+  ]
+}
 ]
