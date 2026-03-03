@@ -2,7 +2,7 @@
 
 /* Wrap */
 .wrap {
-  background: #080808;
+  background: #0c0c0c;
   color: #fff;
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
@@ -13,6 +13,7 @@
 .hero {
   padding: clamp(110px, 14vh, 160px) 7vw 0;
   position: relative;
+  margin-top: 25px;
 }
 
 .heroInner {
@@ -78,6 +79,64 @@
   height: 1px;
   background: rgba(255, 255, 255, 0.07);
 }
+
+/* GitHub Button — absolute hero corner */
+.githubBtn {
+  position: absolute;
+  top: clamp(110px, 14vh, 160px);
+  right: 7vw;
+
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.githubBtn:hover {
+  border-color: rgba(212, 168, 67, 0.45);
+  background: rgba(212, 168, 67, 0.04);
+}
+
+/* Teks label kiri */
+.githubBtnLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 11px 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.githubBtn:hover .githubBtnLabel {
+  color: rgba(255, 255, 255, 0.65);
+  border-right-color: rgba(212, 168, 67, 0.2);
+}
+
+/* Kotak ikon kanan */
+.githubBtnIconWrap {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.25);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.githubBtn:hover .githubBtnIconWrap {
+  background: #d4a843;
+  color: #000;
+}
+
 
 /* ARTICLE */
 .article {
