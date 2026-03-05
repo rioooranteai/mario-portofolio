@@ -1,7 +1,7 @@
 .page {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
   overflow: hidden;
   background: #0c0c0c;
   color: #fff;
@@ -12,11 +12,11 @@
 .hero {
   position: relative;
   z-index: 10;
-  height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 7vw;
+  padding: clamp(80px, 12vh, 120px) clamp(1.25rem, 7vw, 8rem) clamp(80px, 10vh, 120px);
 }
 
 .heroEyebrow {
@@ -24,7 +24,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.28);
-  margin-bottom: clamp(18px, 3vh, 28px);
+  margin-bottom: clamp(14px, 3vh, 28px);
   font-weight: 300;
   font-family: 'DM Sans', sans-serif;
 }
@@ -36,26 +36,15 @@
   margin: 0;
 }
 
-.heroHeading {
-  font-family: 'Clash Display', sans-serif;
-  font-size: clamp(1.5rem, 5vw, 5.3rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.035em;
-  color: rgba(255, 255, 255, 0.2);
-  max-width: 85vw;
-  margin: 0;
-  padding: 0;
-}
-
+.heroHeading,
 .heroHeadingLine2 {
   font-family: 'Clash Display', sans-serif;
-  font-size: clamp(1.5rem, 5vw, 5.3rem);
+  font-size: clamp(2rem, 6.5vw, 5.3rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -0.035em;
   color: rgba(255, 255, 255, 0.2);
-  max-width: 85vw;
+  max-width: 90vw;
   margin: 0;
   padding: 0;
 }
@@ -71,33 +60,34 @@
 
 .heroCursor {
   display: inline-block;
-  width: clamp(2px, 0.3vw, 4px);
+  width: clamp(2px, 0.25vw, 4px);
   height: 0.82em;
   background: #d4a843;
-  margin-left: 5px;
+  margin-left: 4px;
   vertical-align: middle;
   border-radius: 2px;
   animation: blink 1s steps(1) infinite;
 }
 
 .heroSub {
-  margin-top: clamp(20px, 4vh, 38px);
-  font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+  margin-top: clamp(16px, 3.5vh, 38px);
+  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
   color: rgba(255, 255, 255, 0.3);
   line-height: 1.75;
-  max-width: clamp(180px, 22vw, 260px);
+  max-width: clamp(200px, 28vw, 320px);
   font-weight: 300;
   font-family: 'DM Sans', sans-serif;
 }
 
 .heroCta {
-  margin-top: clamp(28px, 5vh, 48px);
+  margin-top: clamp(24px, 4.5vh, 48px);
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: clamp(12px, 2vw, 20px);
   flex-wrap: wrap;
 }
 
+/* Buttons */
 .btnPrimary {
   padding: clamp(9px, 1.5vh, 13px) clamp(20px, 2.5vw, 32px);
   background: #fff;
@@ -144,35 +134,151 @@
   font-size: 1em;
 }
 
-/* Bottom bar */
+/* Bottom Bar */
 .bottomBar {
   position: absolute;
-  bottom: clamp(20px, 3vh, 34px);
-  left: 7vw;
-  right: 7vw;
+  bottom: clamp(16px, 3vh, 34px);
+  left: clamp(1.25rem, 7vw, 8rem);
+  right: clamp(1.25rem, 7vw, 8rem);
   z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  /* ✅ Wrap agar tidak overflow di layar sempit */
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* Keyframes */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+/* RESPONSIVE BREAKPOINTS */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: clamp(2rem, 7vw, 4rem);
+    max-width: 95vw;
+  }
+
+  .heroSub {
+    max-width: clamp(240px, 50vw, 400px);
+  }
 }
 
-/* Responsive  */
+/* Tablet kecil */
 @media (max-width: 768px) {
-  .hero { padding: 0 6vw; }
+  .hero {
+    padding-inline: clamp(1.25rem, 6vw, 2.5rem);
+    justify-content: center;
+  }
+
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: clamp(2.2rem, 9vw, 3.5rem);
+    max-width: 100%;
+  }
+
+  .heroSub {
+    max-width: 85vw;
+  }
+
+  .bottomBar {
+    left: clamp(1.25rem, 6vw, 2.5rem);
+    right: clamp(1.25rem, 6vw, 2.5rem);
+  }
 }
 
-@media (max-width: 520px) {
-  .heroSub { max-width: 90vw; }
+/* Mobile */
+@media (max-width: 480px) {
+
+  .page {
+    overflow: visible;
+  }
+
+  .hero {
+    min-height: unset;
+    height: auto;
+    padding-top: clamp(90px, 20vw, 110px);
+    padding-bottom: clamp(48px, 10vw, 64px);
+    padding-inline: 1.25rem;
+    justify-content: flex-start;
+  }
+
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  .heroSub {
+    max-width: 90vw;
+  }
 
   .heroCta {
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
+    gap: 12px;
   }
+
+  .btnPrimary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .bottomBar {
+    position: static;
+    margin-top: clamp(32px, 8vw, 48px);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile S (320px) */
+@media (max-width: 360px) {
+  .hero {
+    padding-top: clamp(80px, 22vw, 100px);
+    padding-inline: 1rem;
+  }
+
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: 1.85rem;
+    letter-spacing: -0.025em;
+  }
+
+  .heroEyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+  }
+}
+
+
+/* Large Desktop 1920px+ */
+@media (min-width: 1920px) {
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: clamp(5.3rem, 6vw, 7rem);
+    max-width: 75vw;
+  }
+
+  .heroSub {
+    max-width: 380px;
+    font-size: 1rem;
+  }
+}
+
+/* Ultrawide 2560px+ */
+@media (min-width: 2560px) {
+  .heroHeading,
+  .heroHeadingLine2 {
+    font-size: clamp(7rem, 7vw, 10rem);
+  }
+
+  .hero {
+    padding-inline: clamp(4rem, 8vw, 12rem);
+  }
+}
+
+/* Animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }

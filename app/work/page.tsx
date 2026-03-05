@@ -9,11 +9,10 @@ import projects from "@/data/projects.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Shape yang diambil dari projects.json — hanya yang dibutuhkan card
 interface ProjectCard {
   slug: string;
   title: string;
-  secondaryTitle: string,
+  secondaryTitle: string;
   category: string;
   year: string;
   thumbnail: string;
@@ -38,26 +37,54 @@ function ProjectCard({ project, index }: { project: ProjectCard; index: number }
     const el = cardRef.current;
     if (!el) return;
 
-    const delay = index % 2 === 1 ? 0.12 : 0;
+    const isMobile = window.innerWidth <= 768;
+    const delay = index % 2 === 1 && !isMobile ? 0.12 : 0;
 
     const ctx = gsap.context(() => {
-      gsap.set(el, { opacity: 0, y: 60, scale: 0.96 });
+      gsap.set(el, { opacity: 0, y: isMobile ? 30 : 60, scale: 0.98 });
 
       ScrollTrigger.create({
         trigger: el,
-        start: "top 88%",
+        start: isMobile ? "top 95%" : "top 88%",
         onEnter: () => {
-          gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.75, delay, ease: "power3.out" });
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: isMobile ? 0.55 : 0.75,
+            delay,
+            ease: "power3.out",
+          });
         },
         onLeaveBack: () => {
-          gsap.to(el, { opacity: 0, y: 60, scale: 0.96, duration: 0.45, ease: "power3.in" });
+          gsap.to(el, {
+            opacity: 0,
+            y: isMobile ? 30 : 60,
+            scale: 0.98,
+            duration: 0.35,
+            ease: "power3.in",
+          });
         },
         onEnterBack: () => {
-          gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: "power3.out" });
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.55,
+            ease: "power3.out",
+          });
         },
-        onLeave: () => {
-          gsap.to(el, { opacity: 0, y: -40, scale: 0.96, duration: 0.45, ease: "power3.in" });
-        },
+        onLeave: isMobile
+          ? undefined
+          : () => {
+              gsap.to(el, {
+                opacity: 0,
+                y: -40,
+                scale: 0.96,
+                duration: 0.45,
+                ease: "power3.in",
+              });
+            },
       });
     });
 
@@ -66,9 +93,12 @@ function ProjectCard({ project, index }: { project: ProjectCard; index: number }
 
   return (
     <Link href={`/work/${project.slug}`} className={styles.cardLink}>
-      <article ref={cardRef} className={styles.card} aria-label={project.title}>
-
-        {/* Thumbnail */}
+      <article
+        ref={cardRef}
+        className={styles.card}
+        aria-label={project.title}
+        onTouchStart={() => {}}
+      >
         <div className={styles.preview}>
           <div className={styles.previewInner}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,7 +113,6 @@ function ProjectCard({ project, index }: { project: ProjectCard; index: number }
           <span className={styles.yearBadge}>{project.year}</span>
         </div>
 
-        {/* Meta */}
         <div className={styles.meta}>
           <h2 className={styles.projectTitle}>{project.secondaryTitle}</h2>
           <div className={styles.tags} role="list" aria-label="Tech stack">
@@ -97,7 +126,6 @@ function ProjectCard({ project, index }: { project: ProjectCard; index: number }
             ))}
           </div>
         </div>
-
       </article>
     </Link>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
@@ -19,14 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body style={{ margin: 0, background: "#080808" }}>
-
-        {/* ✅ Navbar global — muncul di semua halaman */}
+      <body>
         <Navbar />
-
-        {/* Konten tiap halaman dirender di sini */}
         {children}
-
       </body>
     </html>
   );
