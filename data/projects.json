@@ -179,5 +179,51 @@
       "caption": "Text search: 'black shirt for woman' with semantic retrieval results"
     }
   ]
+},
+
+{
+  "slug": "ibm-hr-attrition-dashboard",
+  "title": "IBM HR Attrition Dashboard",
+  "secondaryTitle": "IBM HR Attrition Dashboard — People Analytics & Retention Strategy",
+  "category": "Data Analytics / People Analytics",
+  "year": "2026 (Ongoing)",
+  "thumbnail": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/thumbnail.png",
+  "overview": "A four-page interactive HR analytics dashboard built in Power BI to analyze employee attrition across 1,470 records and 35 features from the IBM HR Analytics dataset. The project covers the full BI workflow: data modeling in Power Query, DAX measure engineering (20+ measures and calculated columns), cross-page filter design, conditional formatting, and a custom 5-factor composite Risk Score model that classifies each active employee into Low, Medium, High, or Critical attrition risk tiers. Each dashboard page is structured around a specific business question, following a narrative flow from executive summary to root cause to compensation equity to forward-looking risk profiling.",
+  "problem": "With a workforce attrition rate of 16.1% — exceeding the industry benchmark of ~10% — the HR team lacked a data-driven system to identify the root causes of turnover and proactively flag at-risk employees before they resign. Existing reporting was static, department-level, and could not support interactive segmentation across roles, demographics, compensation bands, or satisfaction scores simultaneously.",
+  "solution": "Built a Power BI dashboard with a structured DAX measure library covering four analytical layers: (1) core attrition KPIs using DIVIDE and CALCULATE with FILTER context, (2) root cause measures comparing satisfaction, overtime, and promotion lag between attrition cohorts using CALCULATE with explicit filter arguments, (3) compensation equity measures including an income gap calculation and salary hike delta, and (4) a composite Risk Score implemented as a calculated column using VAR-RETURN pattern with five binary flags — overtime status, job satisfaction ≤ 2, monthly income ≤ $3,000, years since last promotion ≥ 4, and work-life balance ≤ 2. A Risk Category calculated column then maps the score to labeled tiers, enabling conditional formatting, slicing, and table filtering on Page 4.",
+  "techStack": [
+    "Power BI",
+    "DAX",
+    "Power Query",
+    "Data Modeling"
+  ],
+  "challenges": "The core analytical challenge was building a meaningful risk scoring model on a cross-sectional dataset with no time dimension or future outcome labels — attrition is already observed, not predicted. A composite scoring approach was adopted where five independently validated attrition drivers were binarized and summed. To validate the model, [Attrition Rate Dynamic] was plotted against Risk Category on actual historical labels: Low-tier employees showed a 5% attrition rate while Critical-tier reached 52%, confirming the score has strong discriminative power despite its simplicity. A secondary challenge was DAX context management — several measures required explicit CALCULATE wrappers to override row context inside matrix visuals, particularly the [Attrition Rate Dynamic] measure used across the satisfaction heatmap, department-role matrix, and risk category chart.",
+  "results": "Four key quantitative findings surfaced by the dashboard: (1) Overtime is the strongest single attrition predictor — employees with OverTime=Yes attrite at 53.5% versus 10.4% for those without, a 5.1× difference. (2) Stock Option Level 0 employees leave at 23.7%, more than four times the rate of Level 2 holders (5.3%), identifying equity compensation as a high-leverage retention lever. (3) A $2,045/month income gap exists between employees who left and those who stayed, consistent across job levels 1–3. (4) The Risk Score model flagged 89 currently active employees as Critical risk (score ≥ 4), providing HR with a concrete prioritized list for immediate retention intervention.",
+  "gallery": [
+    {
+      "id": "g1",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/01.png",
+      "alt": "Page 1 — Executive Overview",
+      "caption": "Executive Overview: 6 KPI cards (Total Employees, Total Attrition, Attrition Rate %, Active Employees, Avg Income, Avg Tenure), attrition split donut chart, clustered bar by department, horizontal bar Top 5 job roles, age group column chart, and 100% stacked bar by gender × marital status"
+    },
+    {
+      "id": "g2",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/02.png",
+      "alt": "Page 2 — Root Cause Analysis",
+      "caption": "Root Cause Analysis: overtime clustered bar (53.5% vs 10.4%), business travel breakdown, work-life balance column chart, 4×4 satisfaction matrix heatmap (JobSatisfaction × EnvironmentSatisfaction → Attrition Rate %), promotion lag KPI comparison, and job involvement column chart"
+    },
+    {
+      "id": "g3",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/03.png",
+      "alt": "Page 3 — Compensation & Fairness Analysis",
+      "caption": "Compensation Analysis: income gap KPI cards ($4,787 vs $6,832), clustered bar of avg income by job level × attrition status, salary hike delta comparison, stock option level vs attrition rate column chart, num companies worked bar chart, and monthly income vs total working years scatter plot"
+    },
+    {
+      "id": "g4",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/04.png",
+      "alt": "Page 4 — Risk Profiling & Retention Strategy",
+      "caption": "Risk Profiling: High Risk Employee count KPI (89 active, score ≥ 4), retention rate KPI, department × job role attrition heatmap matrix, risk category validation bar chart (5% Low → 52% Critical), high-risk employee table filtered to Attrition=No with Risk Score and Risk Category columns, and three data-driven retention recommendation panels"
+    }
+  ]
 }
 ]

@@ -356,7 +356,7 @@
 /* Large Desktop 1920px+ */
 @media (min-width: 1920px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: clamp(24px, 2vw, 40px);
   }
 
@@ -368,7 +368,7 @@
 /* Ultrawide 2560px+ */
 @media (min-width: 2560px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .headerTitle {

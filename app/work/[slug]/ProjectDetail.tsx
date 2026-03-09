@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import styles from "./project.module.css";
+import Lightbox from "./lightbox"; 
 
 export interface ProjectData {
   slug: string;
@@ -32,6 +33,16 @@ export default function ProjectDetail({ project }: { project: ProjectData }) {
   const dragStart = useRef(0);
   const scrollStart = useRef(0);
 
+  // ── LIGHTBOX STATE ── TAMBAH INI
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const openLightbox = (idx: number) => {
+    setLightboxIndex(idx);
+    setLightboxOpen(true);
+  };
+  // ────────────────────────────────
+
   // Scroll spy for gallery dots
   useEffect(() => {
     const el = galleryRef.current;
@@ -46,12 +57,15 @@ export default function ProjectDetail({ project }: { project: ProjectData }) {
 
   // Drag to scroll — desktop only
   const onMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
+    setIsDragging(false); // reset dulu, set true saat bergerak
     dragStart.current = e.pageX;
     scrollStart.current = galleryRef.current?.scrollLeft ?? 0;
   };
   const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !galleryRef.current) return;
+    if (!galleryRef.current) return;
+    const delta = Math.abs(e.pageX - dragStart.current);
+    if (delta > 5) setIsDragging(true); // baru drag kalau sudah bergerak
+    if (!isDragging) return;
     galleryRef.current.scrollLeft =
       scrollStart.current - (e.pageX - dragStart.current);
   };
@@ -206,7 +220,16 @@ export default function ProjectDetail({ project }: { project: ProjectData }) {
           onMouseLeave={onMouseUp}
         >
           {project.gallery.map((item, idx) => (
-            <div key={item.id} className={styles.galleryCard}>
+            <div
+              key={item.id}
+              className={styles.galleryCard}
+              // ── TAMBAH onClick INI ──
+              onClick={() => {
+                if (!isDragging) openLightbox(idx);
+              }}
+              style={{ cursor: "zoom-in" }}
+              // ────────────────────────
+            >
               <div className={styles.galleryImgWrap}>
                 <img
                   src={item.src}
@@ -241,6 +264,16 @@ export default function ProjectDetail({ project }: { project: ProjectData }) {
           ))}
         </div>
       </section>
+
+      {/* ── LIGHTBOX ── TAMBAH INI */}
+      {lightboxOpen && (
+        <Lightbox
+          images={project.gallery}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+      {/* ──────────────────────── */}
 
     </div>
   );
