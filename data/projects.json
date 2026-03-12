@@ -5,7 +5,7 @@
     "secondaryTitle": "Safana — System Analytics Fauna Nusantara",
     "category": "AI Conservation Platform",
     "year": "2025",
-    "thumbnail": "/mario-portofolio/images/projects/safana/thumbnail.png",
+    "thumbnail": "/mario-portofolio/images/projects/safana/thumbnail.webp",
     "github": "https://github.com/Tim-Capstone-CC25-CF161",
     "overview": "SAFaNa (System Analytics Fauna Nusantara) is a web platform that leverages computer vision to identify endangered wildlife species from user-uploaded photos. Built in response to Indonesia's growing illegal wildlife trade crisis — where over 113,000 illegal animal listings were recorded online between 2015 and 2023 — the platform bridges the gap between public awareness and conservation action.",
     "problem": "Indonesia is home to 680 endemic species, 189 of which are now threatened with extinction. Despite the scale of the crisis, no accessible digital tool existed for the public to identify protected species in real-time or report findings directly to conservation authorities (BKSDA). The lack of this infrastructure allowed illegal wildlife trade to thrive largely undetected.",
@@ -16,31 +16,31 @@
     "gallery": [
       {
         "id": "g1",
-        "src": "/mario-portofolio/images/projects/safana/01.png",
+        "src": "/mario-portofolio/images/projects/safana/01.webp",
         "alt": "Homepage",
         "caption": "Landing page & upload interface"
       },
       {
         "id": "g2",
-        "src": "/mario-portofolio/images/projects/safana/02.png",
+        "src": "/mario-portofolio/images/projects/safana/02.webp",
         "alt": "Detection result",
         "caption": "Detection result with bounding box"
       },
       {
         "id": "g3",
-        "src": "/mario-portofolio/images/projects/safana/03.png",
+        "src": "/mario-portofolio/images/projects/safana/03.webp",
         "alt": "Species detail",
         "caption": "Species detail & conservation info"
       },
       {
         "id": "g4",
-        "src": "/mario-portofolio/images/projects/safana/04.png",
+        "src": "/mario-portofolio/images/projects/safana/04.webp",
         "alt": "BKSDA locator",
         "caption": "Nearest BKSDA locator"
       },
       {
         "id": "g5",
-        "src": "/mario-portofolio/images/projects/safana/05.png",
+        "src": "/mario-portofolio/images/projects/safana/05.webp",
         "alt": "Distribution map",
         "caption": "Interactive detection map"
       }
@@ -53,7 +53,7 @@
     "secondaryTitle": "Veriface — eKYC Real-time Identity Verification System",
     "category": "AI Identity Verification",
     "year": "2026 (Ongoing)",
-    "thumbnail": "/mario-portofolio/images/projects/veriface/thumbnail.png",
+    "thumbnail": "/mario-portofolio/images/projects/veriface/thumbnail.webp",
     "github": "https://github.com/rioooranteai/veriface",
     "overview": "Veriface is a real-time eKYC (electronic Know Your Customer) web platform that automates identity verification through two stages: KTP card scanning via OCR and face liveness detection via webcam. The system is designed to eliminate manual document verification, enabling instant, camera-based identity authentication directly from the browser.",
     "problem": "Manual identity verification processes are slow, error-prone, and difficult to scale — particularly for digital onboarding flows that require real-time document reading and liveness checks. No lightweight, self-hostable eKYC pipeline existed that combined KTP-specific OCR with live face verification in a single browser session.",
@@ -64,13 +64,13 @@
     "gallery": [
       {
         "id": "g1",
-        "src": "/mario-portofolio/images/projects/veriface/01.png",
+        "src": "/mario-portofolio/images/projects/veriface/01.webp",
         "alt": "Landing page",
         "caption": "Landing page & verification flow overview"
       },
       {
         "id": "g2",
-        "src": "/mario-portofolio/images/projects/veriface/02.png",
+        "src": "/mario-portofolio/images/projects/veriface/02.webp",
         "alt": "Scan KTP page",
         "caption": "Real-time KTP scan with YOLO bounding box & OCR result panel"
       }
@@ -83,7 +83,7 @@
     "secondaryTitle": "LeafScan — AI-Powered Corn Leaf Disease Detection",
     "category": "AI Plant Disease Detection",
     "year": "2024",
-    "thumbnail": "/mario-portofolio/images/projects/leafscan/thumbnail.png",
+    "thumbnail": "/mario-portofolio/images/projects/leafscan/thumbnail.webp",
     "github": "https://github.com/rioooranteai/Project-LeafScan",
     "overview": "LeafScan is a mobile application that uses deep learning to automatically detect diseases on corn leaves from user-uploaded photos. Built to address the limitations of slow and inaccurate manual diagnosis in Indonesian agriculture, the app covers four conditions — Common Rust, Gray Leaf Spot, Blight, and Healthy — and delivers detection results alongside GPT-powered treatment recommendations.",
     "problem": "Corn is a critical food commodity in Indonesia, yet farmers frequently fail to identify leaf diseases early enough to prevent significant crop loss. No accessible, AI-powered mobile tool existed to help farmers and agriculture students perform fast, accurate disease diagnosis in the field without relying on manual visual inspection.",
@@ -94,25 +94,25 @@
     "gallery": [
       {
         "id": "g1",
-        "src": "/mario-portofolio/images/projects/leafscan/01.png",
+        "src": "/mario-portofolio/images/projects/leafscan/01.webp",
         "alt": "Splash screen",
         "caption": "Splash screen"
       },
       {
         "id": "g2",
-        "src": "/mario-portofolio/images/projects/leafscan/02.png",
+        "src": "/mario-portofolio/images/projects/leafscan/02.webp",
         "alt": "Login & Register",
         "caption": "Login & register page"
       },
       {
         "id": "g3",
-        "src": "/mario-portofolio/images/projects/leafscan/03.png",
+        "src": "/mario-portofolio/images/projects/leafscan/03.webp",
         "alt": "Detection result",
         "caption": "Detection result & history page"
       },
       {
         "id": "g4",
-        "src": "/mario-portofolio/images/projects/leafscan/04.png",
+        "src": "/mario-portofolio/images/projects/leafscan/04.webp",
         "alt": "Disease detail",
         "caption": "Disease detail with bounding box & treatment info"
       }
@@ -125,7 +125,7 @@
   "secondaryTitle": "ValeMart — Multimodal Fashion Search & Recommendation",
   "category": "AI / Information Retrieval",
   "year": "2026",
-  "thumbnail": "/mario-portofolio/images/projects/valemart/thumbnail.png",
+  "thumbnail": "/mario-portofolio/images/projects/valemart/thumbnail.webp",
   "github": "https://github.com/rioooranteai/recommendation-systems/tree/main/Semantic%20Image%20Fashion%20Recommender",
   "overview": "Vale Mart is a fashion e-commerce application built around a multimodal AI retrieval system. Users can search for products by image, natural language, or a combination of both. Every product detail page also surfaces two sets of AI-generated recommendations — visually similar items via image embedding and semantically related items via text embedding — retrieved in parallel from a Pinecone vector database.",
   "problem": "Keyword-based search fails when users have a visual reference but no words to describe it, or when they want to explore products similar in style but described differently. Standard recommendation systems also treat product similarity as one-dimensional, unable to distinguish between visual likeness and semantic relevance.",
@@ -144,37 +144,37 @@
   "gallery": [
     {
       "id": "g1",
-      "src": "/mario-portofolio/images/projects/valemart/01.png",
+      "src": "/mario-portofolio/images/projects/valemart/01.webp",
       "alt": "Shop page — image search",
       "caption": "Image search: upload a product photo to find visually similar items"
     },
     {
       "id": "g2",
-      "src": "/mario-portofolio/images/projects/valemart/02.png",
+      "src": "/mario-portofolio/images/projects/valemart/02.webp",
       "alt": "Shop page — search results grid",
       "caption": "Search results grid with IMAGE mode badge and 12 product cards"
     },
     {
       "id": "g3",
-      "src": "/mario-portofolio/images/projects/valemart/03.png",
+      "src": "/mario-portofolio/images/projects/valemart/03.webp",
       "alt": "Product detail — visually similar recommendations",
       "caption": "Product detail: Visually Similar section (IMAGE MATCH)"
     },
     {
       "id": "g4",
-      "src": "/mario-portofolio/images/projects/valemart/04.png",
+      "src": "/mario-portofolio/images/projects/valemart/04.webp",
       "alt": "Product detail — description match recommendations",
       "caption": "Product detail: Related Products section (DESCRIPTION MATCH)"
     },
     {
       "id": "g5",
-      "src": "/mario-portofolio/images/projects/valemart/05.png",
+      "src": "/mario-portofolio/images/projects/valemart/05.webp",
       "alt": "Shop page — empty state",
       "caption": "Initial state with upload area and search form"
     },
     {
       "id": "g6",
-      "src": "/mario-portofolio/images/projects/valemart/06.png",
+      "src": "/mario-portofolio/images/projects/valemart/06.webp",
       "alt": "Shop page — text search results",
       "caption": "Text search: 'black shirt for woman' with semantic retrieval results"
     }
@@ -187,7 +187,7 @@
   "secondaryTitle": "IBM HR Attrition Dashboard — People Analytics & Retention Strategy",
   "category": "Data Analytics / People Analytics",
   "year": "2026 (Ongoing)",
-  "thumbnail": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/thumbnail.png",
+  "thumbnail": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/thumbnail.webp",
   "overview": "A four-page interactive HR analytics dashboard built in Power BI to analyze employee attrition across 1,470 records and 35 features from the IBM HR Analytics dataset. The project covers the full BI workflow: data modeling in Power Query, DAX measure engineering (20+ measures and calculated columns), cross-page filter design, conditional formatting, and a custom 5-factor composite Risk Score model that classifies each active employee into Low, Medium, High, or Critical attrition risk tiers. Each dashboard page is structured around a specific business question, following a narrative flow from executive summary to root cause to compensation equity to forward-looking risk profiling.",
   "problem": "With a workforce attrition rate of 16.1% — exceeding the industry benchmark of ~10% — the HR team lacked a data-driven system to identify the root causes of turnover and proactively flag at-risk employees before they resign. Existing reporting was static, department-level, and could not support interactive segmentation across roles, demographics, compensation bands, or satisfaction scores simultaneously.",
   "solution": "Built a Power BI dashboard with a structured DAX measure library covering four analytical layers: (1) core attrition KPIs using DIVIDE and CALCULATE with FILTER context, (2) root cause measures comparing satisfaction, overtime, and promotion lag between attrition cohorts using CALCULATE with explicit filter arguments, (3) compensation equity measures including an income gap calculation and salary hike delta, and (4) a composite Risk Score implemented as a calculated column using VAR-RETURN pattern with five binary flags — overtime status, job satisfaction ≤ 2, monthly income ≤ $3,000, years since last promotion ≥ 4, and work-life balance ≤ 2. A Risk Category calculated column then maps the score to labeled tiers, enabling conditional formatting, slicing, and table filtering on Page 4.",
@@ -202,25 +202,25 @@
   "gallery": [
     {
       "id": "g1",
-      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/01.png",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/01.webp",
       "alt": "Page 1 — Executive Overview",
       "caption": "Executive Overview: 6 KPI cards (Total Employees, Total Attrition, Attrition Rate %, Active Employees, Avg Income, Avg Tenure), attrition split donut chart, clustered bar by department, horizontal bar Top 5 job roles, age group column chart, and 100% stacked bar by gender × marital status"
     },
     {
       "id": "g2",
-      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/02.png",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/02.webp",
       "alt": "Page 2 — Root Cause Analysis",
       "caption": "Root Cause Analysis: overtime clustered bar (53.5% vs 10.4%), business travel breakdown, work-life balance column chart, 4×4 satisfaction matrix heatmap (JobSatisfaction × EnvironmentSatisfaction → Attrition Rate %), promotion lag KPI comparison, and job involvement column chart"
     },
     {
       "id": "g3",
-      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/03.png",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/03.webp",
       "alt": "Page 3 — Compensation & Fairness Analysis",
       "caption": "Compensation Analysis: income gap KPI cards ($4,787 vs $6,832), clustered bar of avg income by job level × attrition status, salary hike delta comparison, stock option level vs attrition rate column chart, num companies worked bar chart, and monthly income vs total working years scatter plot"
     },
     {
       "id": "g4",
-      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/04.png",
+      "src": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/04.webp",
       "alt": "Page 4 — Risk Profiling & Retention Strategy",
       "caption": "Risk Profiling: High Risk Employee count KPI (89 active, score ≥ 4), retention rate KPI, department × job role attrition heatmap matrix, risk category validation bar chart (5% Low → 52% Critical), high-risk employee table filtered to Attrition=No with Risk Score and Risk Category columns, and three data-driven retention recommendation panels"
     }
