@@ -1,4 +1,4 @@
-/* ── BACKDROP ─────────────────────────────────────────────── */
+/* BACKDROP */
 .backdrop {
   position: fixed;
   inset: 0;
@@ -22,7 +22,7 @@
   transform: scale(1);
 }
 
-/* ── TOP BAR ──────────────────────────────────────────────── */
+/* TOP BAR */
 .topBar {
   position: fixed;
   top: 0;
@@ -62,21 +62,21 @@
 
 .counterSep {
   font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.45); /* was 0.2 */
 }
 
 .counterTotal {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.55); /* was 0.25 */
   letter-spacing: 0.04em;
 }
 
 .caption {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.55); /* was 0.28 */
   font-weight: 300;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -92,13 +92,13 @@
   flex-shrink: 0;
 }
 
-/* ── ZOOM CONTROLS ────────────────────────────────────────── */
+/* ZOOM CONTROLS */
 .zoomGroup {
   display: flex;
   align-items: center;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06); /* was 0.04 */
+  border: 1px solid rgba(255, 255, 255, 0.16); /* was 0.08 */
   border-radius: 8px;
   padding: 3px;
 }
@@ -109,7 +109,7 @@
   border-radius: 6px;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.7); /* was 0.45 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,7 +130,7 @@
 .zoomLabel {
   font-family: 'DM Mono', monospace;
   font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.6); /* was 0.35 */
   min-width: 42px;
   text-align: center;
   border: none;
@@ -151,7 +151,7 @@
 .divider {
   width: 1px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.2); /* was 0.08 */
   margin: 0 4px;
 }
 
@@ -159,9 +159,9 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* was 0.1 */
+  background: rgba(255, 255, 255, 0.06); /* was 0.04 */
+  color: rgba(255, 255, 255, 0.65); /* was 0.4 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +176,7 @@
   transform: rotate(90deg);
 }
 
-/* ── IMAGE STAGE ──────────────────────────────────────────── */
+/* IMAGE STAGE */
 .stage {
   position: relative;
   width: 100%;
@@ -222,7 +222,7 @@
   border-radius: 8px;
   user-select: none;
   pointer-events: none;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.08); /* was 0.05 */
 }
 
 /* Loading skeleton */
@@ -247,7 +247,7 @@
   100% { background-position: 200% 0; }
 }
 
-/* ── NAV BUTTONS ──────────────────────────────────────────── */
+/* NAV BUTTONS */
 .navBtn {
   position: fixed;
   top: 50%;
@@ -255,9 +255,9 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* was 0.1 */
+  background: rgba(255, 255, 255, 0.08); /* was 0.05 */
+  color: rgba(255, 255, 255, 0.7); /* was 0.45 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,7 +277,7 @@
 .navPrev { left: clamp(10px, 2vw, 28px); }
 .navNext { right: clamp(10px, 2vw, 28px); }
 
-/* ── DOTS ─────────────────────────────────────────────────── */
+/* DOTS */
 .dots {
   position: fixed;
   bottom: 40px;
@@ -293,7 +293,7 @@
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.35); /* was 0.18 */
   border: none;
   cursor: pointer;
   transition: background 0.22s, width 0.22s, transform 0.22s;
@@ -301,7 +301,7 @@
 }
 
 .dot:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.65); /* was 0.4 */
   transform: scale(1.2);
 }
 
@@ -310,7 +310,7 @@
   width: 22px;
 }
 
-/* ── HINT ─────────────────────────────────────────────────── */
+/* HINT */
 .hint {
   position: fixed;
   bottom: 16px;
@@ -321,17 +321,17 @@
   gap: 8px;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.38); /* was 0.14 */
   letter-spacing: 0.06em;
   white-space: nowrap;
   z-index: 10;
 }
 
 .hintSep {
-  color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.2); /* was 0.08 */
 }
 
-/* ── RESPONSIVE ───────────────────────────────────────────── */
+/* RESPONSIVE */
 @media (max-width: 600px) {
   .imgWrap,
   .img {
