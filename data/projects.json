@@ -246,6 +246,7 @@
       "Docling",
       "Google OAuth",
       "OpenAI",
+      "OpenAI Whisper",
       "Pydantic AI"
     ],
     "challenges": "The first architectural challenge was how to handle numeric reasoning reliably. Instead of asking the LLM to perform calculations directly, all numeric questions are routed through SQL over a structured competitor-features table, so the LLM only summarizes deterministic query results rather than computing its own numbers. Building on that decision, the next major challenge was securing the NL→SQL pipeline so LLM generated queries could never be weaponized for destructive operations. To address this, the system applies a two layer defense: incoming natural language is first checked against regex based guards to block prompt injection patterns before it is sent to the LLM, and any SQL produced is then parsed and allowed to execute only if it is a pure SELECT statement with no destructive DDL or DML keywords.",
