@@ -186,7 +186,7 @@
   "title": "IBM HR Attrition Dashboard",
   "secondaryTitle": "IBM HR Attrition Dashboard — People Analytics & Retention Strategy",
   "category": "Data Analytics / People Analytics",
-  "year": "2026 (Ongoing)",
+  "year": "2026",
   "thumbnail": "/mario-portofolio/images/projects/ibm-hr-attrition-dashboard/thumbnail.webp",
   "overview": "A four-page interactive HR analytics dashboard built in Power BI to analyze employee attrition across 1,470 records and 35 features from the IBM HR Analytics dataset. The project covers the full BI workflow: data modeling in Power Query, DAX measure engineering (20+ measures and calculated columns), cross-page filter design, conditional formatting, and a custom 5-factor composite Risk Score model that classifies each active employee into Low, Medium, High, or Critical attrition risk tiers. Each dashboard page is structured around a specific business question, following a narrative flow from executive summary to root cause to compensation equity to forward-looking risk profiling.",
   "problem": "With a workforce attrition rate of 16.1% — exceeding the industry benchmark of ~10% — the HR team lacked a data-driven system to identify the root causes of turnover and proactively flag at-risk employees before they resign. Existing reporting was static, department-level, and could not support interactive segmentation across roles, demographics, compensation bands, or satisfaction scores simultaneously.",
@@ -225,5 +225,80 @@
       "caption": "Risk Profiling: High Risk Employee count KPI (89 active, score ≥ 4), retention rate KPI, department × job role attrition heatmap matrix, risk category validation bar chart (5% Low → 52% Critical), high-risk employee table filtered to Attrition=No with Risk Score and Risk Category columns, and three data-driven retention recommendation panels"
     }
   ]
-}
+},
+{
+    "slug": "argos",
+    "title": "ArgosAI",
+    "secondaryTitle": "ArgosAI — Competitive Intelligence System",
+    "category": "AI Competitive Intelligence",
+    "year": "2026",
+    "thumbnail": "/mario-portofolio/images/projects/argos/thumbnail.png",
+    "github": "https://github.com/rioooranteai/argos",
+    "overview": "ArgosAI is an AI-powered competitive intelligence system that enables users to upload competitor documents (PDF or Markdown), automatically extract structured data using an LLM extraction agent, and perform natural language Q&A against that competitor data. Built for product, strategy, and business intelligence teams who need competitive insights quickly — without manually reading lengthy documents.",
+    "problem": "Business and strategy teams spend significant time manually reading competitor documents to extract pricing, features, and positioning data. This process is slow, inconsistent, and impossible to query dynamically. No lightweight system existed that could ingest unstructured competitor documents and expose their contents through both structured SQL queries and semantic search in a single pipeline.",
+    "solution": "A four-flow system: documents are parsed by Docling and chunked into ChromaDB. An LLM extraction agent reads those chunks and writes structured rows — brand name, product name, price, currency, advantages, disadvantages — into a SQLite features table. A LangGraph hybrid retrieval graph then classifies each user question as sql, vector, both, or none: factual/numeric questions route to an NL→SQL pipeline against the features table, while general/semantic questions route to ChromaDB. A synthesizer node merges both outputs and generates the final natural-language answer. All conversations are persisted per user with auto-generated titles.",
+    "techStack": [
+      "FastAPI",
+      "LangGraph",
+      "LangChain",
+      "ChromaDB",
+      "SQLite",
+      "Docling",
+      "Google OAuth",
+      "OpenAI",
+      "Pydantic AI"
+    ],
+    "challenges": "The first architectural challenge was how to handle numeric reasoning reliably. Instead of asking the LLM to perform calculations directly, all numeric questions are routed through SQL over a structured competitor-features table, so the LLM only summarizes deterministic query results rather than computing its own numbers. Building on that decision, the next major challenge was securing the NL→SQL pipeline so LLM generated queries could never be weaponized for destructive operations. To address this, the system applies a two layer defense: incoming natural language is first checked against regex based guards to block prompt injection patterns before it is sent to the LLM, and any SQL produced is then parsed and allowed to execute only if it is a pure SELECT statement with no destructive DDL or DML keywords.",
+    "results": "A reliability test across 6 runs (3 prompts in Bahasa Indonesia, 3 in English) produced logically identical SQL in every attempt, with the same WHERE conditions, ORDER BY clause, and selected columns, confirming that the NL→SQL mapping is stable under sampling. The system correctly inferred the user’s language from the prompt and answered in Bahasa Indonesia or English without any additional configuration. Across all runs, key factual details such as MONOPOLY GO! reaching $1.2B revenue and being a 2023 top performer, plus its role as a case study data source, appeared consistently with only natural sentence level variation. This demonstrates that the router and retrieval layers are working as intended and that the LLM is synthesizing from retrieved evidence rather than hallucinating template like answers.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/mario-portofolio/images/projects/argos/01.png",
+        "alt": "Login screen with Google OAuth",
+        "caption": "Login screen: ArgosAI entry point with Google OAuth authentication before accessing any competitive intelligence workspace"
+      },
+      {
+        "id": "g2",
+        "src": "/mario-portofolio/images/projects/argos/02.png",
+        "alt": "Initial workspace after login with empty conversation list",
+        "caption": "Initial workspace after login: empty state with welcome message and suggested example queries before any conversation or document exists"
+      },
+      {
+        "id": "g3",
+        "src": "/mario-portofolio/images/projects/argos/03.png",
+        "alt": "Chat answer explaining that no competitor data is available yet",
+        "caption": "Chat response when the database is still empty: the AI explains that no matching competitor data exists yet and suggests uploading a relevant PDF first"
+      },
+      {
+        "id": "g4",
+        "src": "/mario-portofolio/images/projects/argos/04.png",
+        "alt": "PDF upload panel with extraction and ingestion status",
+        "caption": "Document ingestion flow: a competitor PDF is uploaded, parsed, and extracted into structured features while the UI shows processing and ingestion status"
+      },
+      {
+        "id": "g5",
+        "src": "/mario-portofolio/images/projects/argos/05.png",
+        "alt": "Chat interface answering a competitive analysis query after data ingestion",
+        "caption": "Chat interface after ingestion: ArgosAI answers a competitive analysis query by combining SQL over extracted competitor features with vector search context"
+      },
+      {
+        "id": "g6",
+        "src": "/mario-portofolio/images/projects/argos/06.png",
+        "alt": "Chat interface with text to speech and speech to text controls",
+        "caption": "Multimodal interaction: text to speech and speech to text controls allow users to listen to AI answers or dictate follow up questions by voice"
+      },
+      {
+        "id": "g7",
+        "src": "/mario-portofolio/images/projects/argos/07.png",
+        "alt": "Rename conversation modal over the chat interface",
+        "caption": "Rename conversation modal: users can give each chat a descriptive title to keep multiple competitive analysis threads organized in the sidebar"
+      },
+      {
+        "id": "g8",
+        "src": "/mario-portofolio/images/projects/argos/08.png",
+        "alt": "Delete conversation confirmation dialog",
+        "caption": "Delete conversation confirmation: a safety dialog confirms that removing a chat will permanently delete all messages in that conversation"
+      }
+    ]
+  }
 ]
