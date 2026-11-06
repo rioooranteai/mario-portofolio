@@ -1,0 +1,215 @@
+.wrap {
+  background: #0c0c0c;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Header — same rhythm as /work */
+.header {
+  padding: clamp(60px, 8vh, 100px) 0 0;
+  margin-top: clamp(24px, 4vw, 60px);
+}
+
+.eyebrow {
+  display: block;
+  padding: 0 clamp(1.25rem, 7vw, 8rem);
+  font-size: clamp(11px, 1vw, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.title {
+  padding: 0 clamp(1.25rem, 7vw, 8rem);
+  font-family: "Clash Display", "Syne", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  margin-top: 8px;
+  margin-bottom: clamp(24px, 4vw, 60px);
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.main {
+  padding: clamp(40px, 7vh, 80px) clamp(1.25rem, 7vw, 8rem) clamp(72px, 12vh, 140px);
+}
+
+.lead {
+  max-width: 560px;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+}
+
+/* Email — the one thing to act on */
+.emailLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+  max-width: 100%;
+  margin-top: clamp(20px, 3.5vh, 36px);
+  color: #fff;
+  font-family: "Syne", sans-serif;
+  font-size: clamp(1.5rem, 5vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  transition: color 0.3s ease;
+}
+
+.emailText {
+  overflow-wrap: anywhere;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  padding-bottom: 0.08em;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.emailArrow {
+  flex-shrink: 0;
+  width: 0.55em;
+  height: 0.55em;
+  color: rgba(255, 255, 255, 0.35);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+
+.emailLink:hover {
+  color: #d4a843;
+}
+
+.emailLink:hover .emailText {
+  background-size: 100% 2px;
+}
+
+.emailLink:hover .emailArrow {
+  color: #d4a843;
+  transform: translate(0.06em, -0.06em);
+}
+
+/* Elsewhere — plain index rows */
+.index {
+  margin-top: clamp(64px, 12vh, 128px);
+}
+
+.indexLabel,
+.metaLabel {
+  font-size: max(11px, 0.65rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.indexLabel {
+  margin-bottom: 14px;
+}
+
+.rows {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(110px, 220px) 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: clamp(18px, 3vh, 28px) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.rowLabel {
+  font-size: clamp(11px, 1vw, 0.85rem);
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.3s ease;
+}
+
+.rowValue {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(1.15rem, 2.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  transition: color 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rowArrow {
+  width: clamp(16px, 1.6vw, 22px);
+  height: clamp(16px, 1.6vw, 22px);
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.row:hover .rowValue {
+  color: #d4a843;
+  transform: translateX(6px);
+}
+
+.row:hover .rowLabel {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.row:hover .rowArrow {
+  color: #d4a843;
+  transform: translate(2px, -2px);
+}
+
+/* Meta */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 80px);
+  margin-top: clamp(40px, 7vh, 72px);
+}
+
+.metaLabel {
+  margin-bottom: 6px;
+}
+
+.metaValue {
+  font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+  }
+
+  .rowLabel {
+    grid-column: 1 / -1;
+  }
+
+  .rowValue {
+    grid-column: 1;
+  }
+
+  .rowArrow {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emailText,
+  .emailArrow,
+  .rowValue,
+  .rowArrow {
+    transition: none;
+  }
+}

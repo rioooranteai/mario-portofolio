@@ -1,0 +1,82 @@
+.root {
+  --gutter: clamp(1.25rem, 7vw, 8rem);
+  --gold: #d4a843;
+  --muted: rgba(244, 242, 238, 0.56);
+  --rule: rgba(244, 242, 238, 0.1);
+  background: #0c0c0c;
+  color: #f4f2ee;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* ── Closing ── */
+.closing {
+  padding: clamp(72px, 14vh, 160px) var(--gutter) clamp(72px, 12vh, 140px);
+  border-top: 1px solid var(--rule);
+}
+
+.closingLead {
+  max-width: 40ch;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.closingLink {
+  display: inline-block;
+  margin-top: clamp(12px, 2vh, 24px);
+  font-family: "Clash Display", "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.4rem, 12vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: #f4f2ee;
+  transition: color 0.25s ease;
+}
+
+.closingLink:hover {
+  color: var(--gold);
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: baseline;
+  gap: 12px 32px;
+  flex-wrap: wrap;
+  padding: 28px var(--gutter) 36px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.footerPlace {
+  flex: 1;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.footerLinks a {
+  color: #f4f2ee;
+  transition: color 0.2s ease;
+}
+
+.footerLinks a:hover {
+  color: var(--gold);
+}
+
+.closingLink:focus-visible,
+.footerLinks a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .footerPlace {
+    flex-basis: 100%;
+    order: -1;
+  }
+}

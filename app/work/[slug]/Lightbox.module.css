@@ -1,0 +1,304 @@
+/* Lightbox for the project showcase.
+   Uses the project page's own vocabulary: Syne 800 numerals, DM Sans
+   small caps labels, hairline rules and split buttons that turn gold
+   on hover (same as the "Source" button). */
+
+.backdrop {
+  --lb-ink: #0c0c0c;
+  --lb-paper: #ffffff;
+  --lb-mist: rgba(255, 255, 255, 0.55);
+  --lb-rule: rgba(255, 255, 255, 0.18);
+  --lb-rule-strong: rgba(255, 255, 255, 0.45);
+  --lb-gold: #d4a843;
+  --lb-pad: clamp(1rem, 4vw, 2.5rem);
+  --lb-bar: 76px;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  grid-template-rows: var(--lb-bar) minmax(0, 1fr) var(--lb-bar);
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--lb-ink);
+  color: var(--lb-paper);
+  font-family: 'DM Sans', sans-serif;
+
+  opacity: 0;
+  transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.backdropVisible {
+  opacity: 1;
+}
+
+/* ── Bars ─────────────────────────────────────────── */
+.topBar,
+.bottomBar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 0 var(--lb-pad);
+}
+
+.topBar {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--lb-rule);
+}
+
+.bottomBar {
+  border-top: 1px solid var(--lb-rule);
+}
+
+/* Counter: the one loud element, echoing the page title */
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  line-height: 1;
+}
+
+.counterCurrent {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  letter-spacing: -0.04em;
+  color: var(--lb-paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.counterTotal {
+  font-size: max(11px, 0.78rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--lb-mist);
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Split buttons (same shape as "Source") ────────── */
+.splitBtn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: stretch;
+  height: 40px;
+  border: 1px solid var(--lb-rule);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.splitCell {
+  min-width: 40px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.splitCell + .splitCell {
+  border-left: 1px solid var(--lb-rule);
+}
+
+.splitCell:hover:not(:disabled) {
+  background: var(--lb-gold);
+  color: #000;
+}
+
+.splitCell:disabled {
+  color: rgba(255, 255, 255, 0.22);
+  cursor: default;
+}
+
+.zoomValue {
+  min-width: 64px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: max(11px, 0.72rem);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--lb-mist);
+}
+
+.navCell {
+  min-width: 48px;
+}
+
+/* Close: label + icon, literally the Source button */
+.labelBtn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: stretch;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--lb-rule);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.labelBtnText {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: max(11px, 0.68rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lb-mist);
+  border-right: 1px solid var(--lb-rule);
+  transition: color 0.3s ease;
+}
+
+.labelBtnIcon {
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.labelBtn:hover {
+  border-color: rgba(212, 168, 67, 0.45);
+}
+
+.labelBtn:hover .labelBtnText {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.labelBtn:hover .labelBtnIcon {
+  background: var(--lb-gold);
+  color: #000;
+}
+
+.splitCell:focus-visible,
+.labelBtn:focus-visible,
+.segment:focus-visible {
+  outline: 2px solid var(--lb-gold);
+  outline-offset: 2px;
+}
+
+/* ── Stage ────────────────────────────────────────── */
+.stage {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(12px, 2.5vh, 28px) var(--lb-pad);
+}
+
+.stagePannable { cursor: grab; }
+.stageDragging { cursor: grabbing; }
+
+.imgWrap {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  transform-origin: center center;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.imgLoaded { opacity: 1; }
+
+.img {
+  display: block;
+  max-width: calc(100vw - 2 * var(--lb-pad));
+  max-height: calc(100dvh - 2 * var(--lb-bar) - 2 * clamp(12px, 2.5vh, 28px));
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: clamp(10px, 1.5vw, 16px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  min-width: 320px;
+  min-height: 200px;
+  border-radius: clamp(10px, 1.5vw, 16px);
+  background: #161616;
+}
+
+/* ── Bottom bar ───────────────────────────────────── */
+.caption {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  font-size: max(12px, 0.82rem);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.segment {
+  width: 22px;
+  height: 18px;              /* tall hit area, thin visible line */
+  padding: 0;
+  border: 0;
+  background: linear-gradient(var(--lb-rule-strong), var(--lb-rule-strong)) center / 100% 1px no-repeat;
+  cursor: pointer;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), background-size 0.3s;
+}
+
+.segment:hover {
+  background-size: 100% 2px;
+}
+
+.segmentActive {
+  width: 40px;
+  background: linear-gradient(var(--lb-gold), var(--lb-gold)) center / 100% 2px no-repeat;
+}
+
+/* ── Small screens ────────────────────────────────── */
+@media (max-width: 600px) {
+  .backdrop { --lb-bar: 64px; }
+
+  .controls .splitBtn { display: none; }   /* pinch and pan instead of zoom buttons */
+  .labelBtnText { display: none; }
+  .labelBtnIcon { border-left: 0; }
+
+  .progress { display: none; }
+  .bottomBar { gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .imgWrap,
+  .segment,
+  .splitCell,
+  .labelBtn,
+  .labelBtnIcon {
+    transition: none;
+  }
+}

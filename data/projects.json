@@ -1,0 +1,510 @@
+[
+  {
+    "slug": "argos",
+    "title": "ArgosAI",
+    "secondaryTitle": "ArgosAI — Competitive Intelligence System",
+    "category": "AI Competitive Intelligence",
+    "year": "2026",
+    "thumbnail": "/images/projects/argos/thumbnail.webp",
+    "github": "https://github.com/rioooranteai/argos",
+    "video": {
+      "src": "/images/projects/argos/showcase.mp4",
+      "poster": "/images/projects/argos/showcase-poster.webp"
+    },
+    "overview": "ArgosAI is a competitive intelligence web app. A user uploads competitor documents as PDF or Markdown, an LLM agent turns them into structured data, and the user then asks questions about that data in English or Indonesian. It is built for product, strategy and business teams who need answers from long documents without reading every page.",
+    "problem": "Strategy teams spend a lot of time reading competitor documents to pull out prices, features and positioning. A standard RAG chatbot does not solve this well. It retrieves only the few text chunks most similar to a question, so a request like \"show every product under $50\" or \"which competitor is cheapest?\" would need every relevant document in the prompt, and an LLM's context window has limits. Filtering, sorting and comparing prices across many documents needs the data in a structured form that can be queried.",
+    "solution": "The system has four flows. Docling parses each document, a vision model describes the images inside it, such as charts and tables saved as pictures, so their content becomes searchable text, and the result is split into chunks in ChromaDB. An LLM extraction agent reads those chunks and writes structured rows, with brand, product, price, currency, advantages and disadvantages, into a SQLite table. A LangGraph router then sends each question down one of four routes: SQL for facts and numbers, vector search for general questions, both at once, or neither. A synthesizer node merges the outputs into the final answer. Conversations are saved per user, with titles generated automatically.",
+    "techStack": ["FastAPI", "LangGraph", "ChromaDB", "SQLite", "Docling", "Google OAuth", "OpenAI", "OpenAI Whisper", "OpenAI TTS", "Pydantic AI", "Python", "JavaScript"],
+    "challenges": "The first decision was how to handle numbers reliably. Instead of letting the LLM calculate, every numeric question goes through SQL on the extracted table, so the LLM only summarises results it did not compute itself. That raised the next problem: SQL written by an LLM must never be able to change or delete data, so I built three layers of defence. First, regex guards check the question for prompt injection and for words that ask to change data, before it reaches the LLM. Second, the generated SQL is parsed with sqlparse and runs only if it is a SELECT statement with no keyword such as DROP, DELETE or UPDATE. Third, the query runs on a read-only connection to SQLite and returns at most 100 rows, so even a query that slipped past the first two layers could not change the data. Each layer has its own unit tests, which run in GitHub Actions alongside ruff, mypy and a Docker build.",
+    "results": "I asked the same question three times in Indonesian and three times in English. All six runs produced logically identical SQL, with the same WHERE conditions, ORDER BY clause and columns, so the step from question to SQL behaves consistently. The system answered in the language of each question without extra configuration. Facts from the uploaded test document, such as MONOPOLY GO! reaching $1.2B in revenue and being a top performer in 2023, appeared in every run with only small differences in wording. Six runs show consistency, not accuracy at scale. A natural next step is a larger set of questions with known answers, to measure how often the router picks the right route and the SQL returns the right rows.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/argos/01.webp",
+        "alt": "Login screen with Google OAuth",
+        "caption": "Sign in with Google"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/argos/02.webp",
+        "alt": "Initial workspace after login with empty conversation list",
+        "caption": "Empty workspace with example questions"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/argos/03.webp",
+        "alt": "Chat answer explaining that no competitor data is available yet",
+        "caption": "Answer before any document is uploaded, asking for a PDF first"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/argos/04.webp",
+        "alt": "PDF upload panel with extraction and ingestion status",
+        "caption": "Uploading a competitor PDF, with parsing and extraction progress"
+      },
+      {
+        "id": "g5",
+        "src": "/images/projects/argos/05.webp",
+        "alt": "Chat interface answering a competitive analysis query after data ingestion",
+        "caption": "Answer that combines SQL on the extracted data with document search"
+      },
+      {
+        "id": "g6",
+        "src": "/images/projects/argos/06.webp",
+        "alt": "Chat interface with text-to-speech and speech-to-text controls",
+        "caption": "Listening to answers and asking questions by voice"
+      },
+      {
+        "id": "g7",
+        "src": "/images/projects/argos/07.webp",
+        "alt": "Rename conversation modal over the chat interface",
+        "caption": "Renaming a conversation"
+      },
+      {
+        "id": "g8",
+        "src": "/images/projects/argos/08.webp",
+        "alt": "Delete conversation confirmation dialog",
+        "caption": "Deleting a conversation, with a confirmation"
+      },
+      {
+        "id": "arch1",
+        "src": "/images/projects/argos/architecture-agent.webp",
+        "alt": "Diagram of how the ArgosAI agent routes a question through sql, vector, both or none to the synthesizer",
+        "caption": "How the agent answers: a router sends each question to SQL, semantic search, both at once, or straight to the answer"
+      },
+      {
+        "id": "arch2",
+        "src": "/images/projects/argos/architecture-ingest.webp",
+        "alt": "Diagram of how an uploaded document is parsed, chunked and stored in ChromaDB and the features table",
+        "caption": "How a document becomes data: every upload is stored as searchable chunks in ChromaDB and as structured rows in SQLite"
+      }
+    ]
+  },
+
+  {
+  "slug": "valemart",
+  "title": "ValeMart",
+  "secondaryTitle": "ValeMart — Multimodal Fashion Search & Recommendation",
+  "category": "AI Fashion Search",
+  "year": "2026",
+  "thumbnail": "/images/projects/valemart/thumbnail.webp",
+  "github": "https://github.com/rioooranteai/recommendation-systems/tree/main/Semantic%20Image%20Fashion%20Recommender",
+  "video": {
+    "src": "/images/projects/valemart/showcase.mp4",
+    "poster": "/images/projects/valemart/showcase-poster.webp"
+  },
+  "overview": "ValeMart is a fashion store I built around multimodal search. Shoppers can search 29,683 H&M products with words, with a photo, or with both. Every product page also shows two rows of recommendations, one for products that look alike and one for products that are described alike, both retrieved from Pinecone.",
+  "problem": "Clothing and accessories are the most bought category online in Indonesia, at [43.74% of e-commerce purchases in 2025](https://databoks.katadata.co.id/en/technology-telecommunications/statistics/6895bbddc4d27/clothing-and-accessories-the-most-popular-online-purchases-by-indonesian-citizens \"APJII (2025), via Databoks\"). Keyword search often fails these shoppers. Some have a picture of what they want but no words for it, and others describe an item differently from how the catalogue does. A single similarity score also mixes two questions, whether an item looks right and whether it is the same kind of item, so recommendations built on one signal miss half of what shoppers look for.",
+  "solution": "SigLIP 2 turns a photo into 768 numbers and BGE-M3 turns text into 1,024, and each goes to its own Pinecone index. A word search takes the top 50 candidates and reorders them with Pinecone's bge-reranker-v2-m3. When a shopper uses a photo and words together, both searches run at the same time and their lists are merged with Reciprocal Rank Fusion, weighted by a slider. A FastAPI backend serves every search, and each result list shows at most two colourways of the same design. Recommendations on a product page need no model at all, because the product's stored vectors are used as the query.",
+  "techStack": ["PyTorch", "SigLIP 2", "BGE-M3", "Pinecone", "FastAPI", "Python", "Docker", "JavaScript"],
+  "challenges": "The first challenge was combining two lists whose scores cannot be compared. Photo scores are cosine similarities and word scores come from the reranker, so adding them would let one side dominate. I used Reciprocal Rank Fusion, which looks only at each product's position in each list. The evaluation later showed its limit: a photo plus a colour word pulls in the colour but often loses the item type, because the two lists come from separate searches. The second challenge was memory. SigLIP 2 and BGE-M3 are large, so a single EmbeddingService loads both once at startup and every request reuses them, which lets both run on a 4 GB laptop GPU.",
+  "results": "Measured on the full catalogue of 29,683 products with automatic labels and 95% confidence intervals. Text search: 84.5% of the top 10 results match the type and colour asked for, up from 73.5% without the reranker (+10.9 points, p < 0.001, 200 queries). Photo search finds the exact product first 91.7% of the time and in the top 10 99.0% of the time, from 300 cropped, rotated and blurred photos. 78.1% of 'Looks like this' and 88.8% of 'You may also like' suggestions are the same type of product. Median time per search is 0.38 s for a photo, 0.92 s for words and 0.95 s for both, on a laptop with an Intel Core i5-11300H, an RTX 3050 Laptop GPU (4 GB) and 16 GB RAM, with Pinecone in the cloud. The evaluation also showed what to fix next: Indonesian queries reach only 27.4% because the catalogue text is English. Words borrowed from English such as 'sweter' and 'blazer' work, while everyday words such as 'kemeja', 'topi' and 'cokelat' are mostly missed. Photo and words together pull in the requested colour but tend to lose the photo's item type; letting the words reorder the photo's own candidates is the next step.",
+  "gallery": [
+    {
+      "id": "g1",
+      "src": "/images/projects/valemart/01.webp",
+      "alt": "Vale Mart home page with the search bar and New in products",
+      "caption": "Home page: one search bar takes words, a photo or both, and names the model behind each"
+    },
+    {
+      "id": "g2",
+      "src": "/images/projects/valemart/02.webp",
+      "alt": "Text search results for black ribbed beanie",
+      "caption": "Text search: \"black ribbed beanie\" matched with BGE-M3 and reranked, best match first"
+    },
+    {
+      "id": "g3",
+      "src": "/images/projects/valemart/03.webp",
+      "alt": "Photo search results for an uploaded jacket photo",
+      "caption": "Photo search: an uploaded jacket photo matched with SigLIP 2 across 29,683 products"
+    },
+    {
+      "id": "g4",
+      "src": "/images/projects/valemart/04.webp",
+      "alt": "Photo search results filtered to the Women department",
+      "caption": "Department filter: the same photo search limited to Women"
+    },
+    {
+      "id": "g5",
+      "src": "/images/projects/valemart/05.webp",
+      "alt": "Photo and text search with the balance slider set to 0.4 photo and 0.6 words",
+      "caption": "Photo and words together: the jacket photo plus \"black\", weighted 0.4 photo and 0.6 words"
+    },
+    {
+      "id": "g6",
+      "src": "/images/projects/valemart/06.webp",
+      "alt": "Product page for Mr Harrington w/hood",
+      "caption": "Product page with colour, sizes, delivery details and description"
+    },
+    {
+      "id": "g7",
+      "src": "/images/projects/valemart/07.webp",
+      "alt": "Recommendation rows on the product page",
+      "caption": "Recommendations from stored vectors: Looks like this (SigLIP 2) and You may also like (BGE-M3)"
+    },
+    {
+      "id": "arch",
+      "src": "/images/projects/valemart/architecture.webp",
+      "alt": "Diagram of how Vale Mart encodes a photo and words, searches two Pinecone indexes, reranks, fuses and returns products",
+      "caption": "How Vale Mart searches: SigLIP 2 and BGE-M3 encode the query, Pinecone retrieves, the reranker and RRF rank the results"
+    },
+    {
+      "id": "results",
+      "src": "/images/projects/valemart/results.webp",
+      "alt": "Evaluation results for Vale Mart: word search, photo search, recommendations, Indonesian words and speed",
+      "caption": "Evaluation on 29,683 products: search quality, Indonesian words one by one, and speed on an RTX 3050 laptop"
+    }
+  ]
+},
+
+  {
+    "slug": "pemini",
+    "title": "PEmini",
+    "secondaryTitle": "PEmini — AI Assistant for Product Engineering",
+    "category": "AI Engineering Assistant",
+    "year": "2026",
+    "thumbnail": "/images/projects/pemini/thumbnail.webp",
+    "overview": "PEmini is an internal AI assistant I built for the Product Engineering department during my internship at OPPO Indonesia Manufacturing, and the team still uses it. Engineers ask a question in Indonesian, Mandarin or English and get past problems, NG figures and prevention advice in seconds. A router sends each question to NL2SQL over the NG data, to semantic search over past problem reports, or to both, while greetings are answered directly. Every model runs locally with Ollama. Names and internal data in the screenshots are blurred.",
+    "problem": "Since 2024, the Product Engineering department had written more than 200 problem reports, but there was no central place to search them. Each report followed a shared Excel template, yet nobody could look across them by meaning or ask about their numbers. When a failure came back, finding out what caused it last time and how it was fixed meant opening old reports one by one.",
+    "solution": "I first turned the reports into data. Because every report uses the same Excel template, reading the columns was simple, but the values were not written the same way. An NG rate could appear as 50/100, as 60% or as '50 dari 100', so I cleaned these into one format before loading. The numbers and dates, such as the NG rate of a scratch, the model it affected, the date it was found and the date it was fixed, go to PostgreSQL. The written descriptions are embedded with BGE-M3 and stored in ChromaDB. On top of that data, PEmini works like a small agent. Qwen3.5 acts as the router and decides where the answer lives. Questions about numbers go to the SQL route, where Qwen2.5-Coder-14B writes a query from the table schema. Questions about past problems go to the vector route, where ChromaDB finds the nearest reports and a reranker keeps the closest ones. Some questions need both, and both routes run at the same time. Qwen3.5 then merges the rows and the reports into one answer, in the language of the question. Every model runs locally with Ollama, so the reports never leave the company's own machines.",
+    "techStack": ["Qwen3.5", "Qwen2.5-Coder", "BGE-M3", "ChromaDB", "PostgreSQL", "Pydantic AI", "Ollama", "Next.js", "Python", "TypeScript"],
+    "challenges": "NL2SQL was the riskier route, because a wrong query still returns a confident answer. I did not use few-shot examples. Instead, I used Pydantic AI so that every model reply follows a fixed JSON schema, and the generated SQL is checked before it runs. Only SELECT is allowed. If the query contains a keyword such as DROP or UPDATE, or if PostgreSQL returns an error when it runs, the query goes back to the model to be written again, up to three times. The router carries a different risk. A question about a cause needs the reports, a question about a rate needs the database, and some need both, so a wrong route gives a weaker answer even when each backend works. The schedule was tight too. The backend, the frontend and the trial fitted into about two weeks in May 2026, so I built the routes first and left the redesign and the multilingual support for the ten days after the trial.",
+    "results": "PEmini was trialled at the end of May 2026, the redesign with multilingual support followed in early June, and the Product Engineering team still uses it. Finding a past problem now takes one question and a few seconds, instead of a manual search through more than 200 reports. Indonesian and Mandarin are the priority, and English is supported as well. The app also includes Step analysis, a separate tool that teaches new engineers failure analysis. Each module, such as the antenna, has its checks stored as a tree, and the app tracks visited steps while walking it, so a path never loops back to a step it has already covered. I cannot share the reports, the answers or usage figures, because they are internal, and I have no accuracy figure for any route. That is the obvious next step: a set of real engineering questions with known answers, scored separately for routing, search and NL2SQL, so that changes to the models or prompts can be measured instead of judged by eye.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/pemini/01.webp",
+        "alt": "PEmini chat home with the user name blurred",
+        "caption": "Chat home with suggested research, user name blurred"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/pemini/02.webp",
+        "alt": "Step analysis page with a card for each phone module",
+        "caption": "Step analysis: a separate tool that walks new engineers through failure analysis for each module, one card blurred"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/pemini/architecture.webp",
+        "alt": "System design of how PEmini answers a question",
+        "caption": "How PEmini answers: Qwen3.5 routes each question to SQL, semantic search, both at once, or straight to the answer"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/pemini/architecture-ingest.webp",
+        "alt": "System design of how a problem report becomes data",
+        "caption": "How a report becomes data: the shared Excel template is cleaned, then split into rows for PostgreSQL and text for ChromaDB"
+      }
+    ]
+  },
+
+  {
+    "slug": "material-tracker",
+    "title": "Material Tracker",
+    "secondaryTitle": "Material Tracker — Incoming Material Quality Tracking",
+    "category": "Manufacturing Quality System",
+    "year": "2026",
+    "thumbnail": "/images/projects/material-tracker/thumbnail.webp",
+    "overview": "Material Tracker is an internal app I built during my software engineering internship at OPPO Indonesia Manufacturing. It tracks incoming material that fails inspection, called NG (not good) on the factory floor, from the moment it is found until its final judgement. Each material gets a QR code, so a department only has to scan it to open its record. I built it end to end, with a Next.js web app, a mobile version with a FastAPI backend, and a PostgreSQL database. It is now used on almost every production line, through to the warehouse. The screenshots are blurred because the data is internal.",
+    "problem": "In a factory, a defective material is found at one station and then checked by several departments before a final judgement. The app needed to record each of those checks as it happens, in one place. The catch is time: every step on a production line runs on a fixed budget measured in seconds, so recording a material had to fit inside it.",
+    "solution": "I built the input around a scanner instead of a keyboard. Every NG material gets a QR code when it is first found. From then on, each department that checks it only scans the code, with nothing else to press, and the app opens that material's record. The result is picked from short lists, so there is almost nothing to type. The material moves through four departments in a fixed order, and every judgement uses one shared list of NG categories. When a department finishes its step, the app sends a message through the company's chat app to the person in charge of the next one. The web app is built with Next.js server actions, and a mobile version, served by a FastAPI backend, lets users attach a photo of the material when a case needs one. Everything is stored in one PostgreSQL database, which also feeds a dashboard of NG rates, and the whole system runs on the company's own servers.",
+    "techStack": ["Next.js", "FastAPI", "PostgreSQL", "Python", "TypeScript"],
+    "challenges": "The hardest constraint was time. On a production line every step has a fixed cycle time, measured in seconds, so recording a material had to fit inside it without slowing the line. I designed the whole interaction around that limit. The scan replaces the first tap: the moment the QR code is read, the app opens the material, with no button to press. Every field after that is a choice from a short list, so recording a result takes a few taps. Before building, I learned how a phone is assembled and where NG material appears, so that each screen matched what happens at its station. The rollout was the second challenge. The first trial ran before every scanner on the floor was ready, so daily use started once the equipment was in place.",
+    "results": "Phase 1 is complete and in daily use. It covers registering incoming NG material and re-judging it, and it is used on almost every production line, through to the warehouse. On the first lines it went live on, I supported it in person: on the floor to fix issues users reported, training the operators, and adjusting the screens to what each department needed. NG material is now recorded when it is found, and the dashboard reads from one database. I cannot share production figures, because the data is internal, which is also why the screenshots are blurred. A natural next step is to measure how long a material takes to clear every department, before and after the rollout, so the effect can be shown with numbers.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/material-tracker/01.webp",
+        "alt": "Material Tracker dashboard with figures and labels blurred",
+        "caption": "Dashboard, with figures and labels blurred"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/material-tracker/02.webp",
+        "alt": "Master data page with table names and entries blurred",
+        "caption": "Master data management, with table names and entries blurred"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/material-tracker/architecture.webp",
+        "alt": "System design of Material Tracker",
+        "caption": "How Material Tracker works: one scan per department, and a chat message that calls the next one"
+      }
+    ]
+  },
+
+  {
+    "slug": "pocketly",
+    "title": "Pocketly",
+    "secondaryTitle": "Pocketly — AI-Powered Personal Finance Tracker",
+    "category": "AI Personal Finance",
+    "year": "2026",
+    "thumbnail": "/images/projects/pocketly/thumbnail.webp",
+    "github": "https://github.com/rioooranteai/pocketly",
+    "overview": "Pocketly is a personal finance app I am building on my own, to help people in Indonesia stay in control of their money with as little effort as possible. It turns a photo of a receipt into a categorised transaction, and it is moving towards an AI assistant that tells you whether a purchase is safe before the money is spent. I am using it to learn how to build AI features outside Python, so the backend is written in Go, with a Next.js and TypeScript frontend. It is still a work in progress, and it is the most carefully managed project I have built so far.",
+    "problem": "Borrowing for everyday spending has become easy in Indonesia. Bank paylater accounts reached [32.8 million, with Rp30.71 trillion outstanding, by June 2026](https://keuangan.kontan.co.id/news/pengguna-paylater-bank-capai-328-juta-outstanding-tembus-rp-3071-triliun \"OJK (2026), via Kontan\"), 33.5% more than a year earlier. Understanding has not kept pace with access: the national [financial literacy index was 66.46% in 2025, against a financial inclusion index of 80.51%](https://keuangan.kontan.co.id/news/hasil-snlik-2025-indeks-literasi-keuangan-6646-dan-inklusi-keuangan-8051 \"OJK SNLIK (2025), via Kontan\"). Many people use financial products they do not fully understand. Budgeting apps usually ask for the opposite of what a busy person will do: type in every purchase, then read charts to work out whether they can still afford something.",
+    "solution": "I started with the part that removes the most typing. A user takes a photo of a receipt, and the Go backend, built with Gin, sends it to an OpenAI vision model that reads the merchant name and the line items. A second call picks one category from a fixed list, using the merchant and the item names, and the transaction is saved with GORM in SQLite. The backend follows clean architecture. The use cases depend only on small interfaces, and one bootstrap function wires in OpenAI, Argon2 password hashing, JWT and the database, so a provider can be swapped by writing one adapter. The frontend is built with Next.js, TypeScript, TanStack Query and Zustand, in Indonesian and English. Its home screen is designed to turn income, bills and savings targets into one safe amount to spend today, shown as Safe, Careful or Stop. The next piece is an assistant for the question 'can I buy this?'. Its design uses a small LLM as a router and a semantic layer, so the model chooses a metric and Go writes the SQL, instead of the model writing SQL itself.",
+    "techStack": ["Go", "Gin", "GORM", "SQLite", "OpenAI", "Next.js", "TypeScript", "TanStack Query", "Zustand", "Tailwind CSS", "Playwright"],
+    "challenges": "The first challenge was cost and safety around paid AI calls. Every scan calls a vision model, so scans are limited to ten per minute for each user, each call is cut off after 25 seconds, request bodies have a size limit and images are capped at 5 MB. If the categorizer fails, the transaction is still saved as uncategorised instead of failing the whole scan, and the user ID always comes from the JWT, never from a model's answer. The second challenge was keeping two codebases consistent while working alone. I wrote an API contract for the frontend and design notes for the auth cookie migration and the chatbot. The frontend uses strict TypeScript, unit tests with Vitest, end to end tests with Playwright, a pre-commit hook and a CI workflow that checks formatting, linting, types, tests and the build. Mock data with MSW lets me build a screen before its endpoint exists.",
+    "results": "Pocketly is still in progress. Sign up, sign in, manual transactions and receipt scanning with automatic categories work end to end. The home, cash flow and planning screens are built, but most of them still run on sample data, as do the screenshots here. The assistant exists as a design, not as code, and there are no users yet. The backend has no automated tests so far, which is the gap I want to close first. After that comes the assistant itself, with a golden set of around 200 questions split into development and test sets so its accuracy can be measured, and a move from SQLite to Postgres.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/pocketly/01.webp",
+        "alt": "Pocketly home screen with the safe allowance banner and money health",
+        "caption": "Home: today's safe allowance, top spending, patterns and money health, on sample data"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/pocketly/02.webp",
+        "alt": "Cash flow page with transactions grouped by day",
+        "caption": "Cash flow: transactions grouped by day, with receipt scanning and manual entry"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/pocketly/03.webp",
+        "alt": "Scan receipt dialog with a photo upload area",
+        "caption": "Scan a receipt: AI reads the merchant and the items from a photo"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/pocketly/04.webp",
+        "alt": "Plan page with income for the cycle and a trend chart",
+        "caption": "Plan: income for the cycle, its trend, and scheduled versus extra income, on sample data"
+      },
+      {
+        "id": "g5",
+        "src": "/images/projects/pocketly/architecture.webp",
+        "alt": "System design of how Pocketly reads a receipt",
+        "caption": "How Pocketly reads a receipt: API checks, vision and categorizer ports, GORM and SQLite, with the assistant still in design"
+      }
+    ]
+  },
+
+  {
+    "slug": "leafscan",
+    "title": "LeafScan",
+    "secondaryTitle": "LeafScan — AI-Powered Corn Leaf Disease Detection",
+    "category": "AI Plant Disease Detection",
+    "year": "2024",
+    "thumbnail": "/images/projects/leafscan/thumbnail.webp",
+    "github": "https://github.com/rioooranteai/Project-LeafScan",
+    "video": {
+      "src": "/images/projects/leafscan/showcase.mp4",
+      "poster": "/images/projects/leafscan/showcase-poster.webp"
+    },
+    "overview": "LeafScan is a mobile app, built by a team of seven, that detects disease on corn leaves from a photo. I was the AI engineer. I trained the detector and wrote the inference backend, and we labelled the training data as a team. A YOLOv8s model finds lesions of three diseases, which are Common Rust, Gray Leaf Spot and Blight, and a leaf with no detections is reported as healthy. Each detected disease comes with an explanation, a diagnosis and treatment advice in Indonesian, generated with the OpenAI API.",
+    "problem": "Corn is one of Indonesia's key crops: the country [harvested 15.14 million tonnes from 2.55 million hectares in 2024](https://kupangkota.bps.go.id/en/pressrelease/2025/02/13/489/pada-2024--luas-panen-jagung-pipilan-di-indonesia-mencapai-2-55-juta-hektare--produksi-jagung-pipilan-kering-dengan-kadar-air-14-persen-pada-2024-sebanyak-15-14-juta-ton-.html \"BPS (2025)\"), and pests and pathogens cost an estimated [22.5% of maize yield worldwide](https://doi.org/10.1038/s41559-018-0793-y \"Savary et al. (2019), Nature Ecology & Evolution\"). Leaf diseases such as rust and blight are easiest to manage when caught early, yet expert help is spread thin: one agricultural extension officer typically [covers 2–4 villages and delivers new material only 8–12 times a year](https://psekp.setjen.pertanian.go.id/web/wp-content/uploads/2025/09/PB-2024-Strategi-Percepatan-Implementasi-Perpres-35-Th-2022.pdf \"Kementan PSEKP Policy Brief (2024)\"). Farmers and agriculture students needed a fast first diagnosis they could get from a phone in the field, between expert visits.",
+    "solution": "The Kaggle Corn or Maize Leaf Disease dataset only labels whole images, so we drew bounding boxes on about 1,100 leaf photos in Roboflow and augmented them to roughly 3,000 training images at 640 by 640 pixels. Users sign in with Firebase and take or upload a photo in the Flutter app. A FastAPI backend on Google Compute Engine runs YOLOv8s with SAHI. The photo is cut into overlapping tiles of 356 by 356 pixels, each tile is detected separately, and the boxes are merged into one annotated image. For every disease found, GPT-3.5 Turbo writes a short definition, diagnosis and advice in parallel. Detection history is stored for each user in Firebase Realtime Database.",
+    "techStack": ["YOLOv8", "SAHI", "Roboflow", "MLflow", "FastAPI", "Flutter", "GCP", "Firebase", "OpenAI", "Python", "Dart"],
+    "challenges": "Small lesions, especially Common Rust, were the hardest part. Lowering the confidence threshold added false positives, while full image inference missed small spots. Slicing with SAHI recovered many of them, and overlapping boxes from neighbouring tiles are combined with greedy non maximum merging, which is the SAHI default. The cost is extra latency on a CPU server. The models also overfit early. For both YOLOv8s and YOLOv11, validation loss reached its lowest point after a few dozen epochs and then rose while training loss kept falling, so the best early checkpoint was kept.",
+    "results": "I compared YOLOv8s and YOLOv11 on the same data and tracked the runs in MLflow. Both reached a similar mAP50 of about 0.35. The deployed YOLOv8s model was set to train for 150 epochs, early stopping ended the run at epoch 125, and the best checkpoint came from epoch 25. On the validation set without slicing, it reached an mAP50 of 0.35, an mAP50-95 of 0.17, a precision of 0.37 and a recall of 0.38. That is well short of the 90% target the team set at the start. Box level metrics are strict for this task, because lesions are small, densely packed and hard to box consistently. On a sample leaf, SAHI raised the number of detected lesions from one box to seven, although most of them had low confidence between 0.30 and 0.58. A natural next step is to train on tiles as well, so the model learns lesions at the same scale SAHI shows it at inference, and to compare against a transformer detector such as RT-DETR.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/leafscan/01.webp",
+        "alt": "Splash screen",
+        "caption": "Splash screen"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/leafscan/02.webp",
+        "alt": "Login & Register",
+        "caption": "Login & register page"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/leafscan/03.webp",
+        "alt": "Detection result",
+        "caption": "Detection result & history page"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/leafscan/04.webp",
+        "alt": "Disease detail",
+        "caption": "Disease detail with bounding box & treatment info"
+      },
+      {
+        "id": "g5",
+        "src": "/images/projects/leafscan/05.webp",
+        "alt": "Same corn leaf detected with YOLO alone and with YOLO plus SAHI",
+        "caption": "Same leaf with and without SAHI slicing, one detection versus seven"
+      }
+    ]
+  },
+
+  {
+    "slug": "safana",
+    "title": "Safana",
+    "secondaryTitle": "Safana — System Analytics Fauna Nusantara",
+    "category": "AI Conservation Platform",
+    "year": "2025",
+    "thumbnail": "/images/projects/safana/thumbnail.webp",
+    "github": "https://github.com/Tim-Capstone-CC25-CF161",
+    "video": {
+      "src": "/images/projects/safana/showcase.mp4",
+      "poster": "/images/projects/safana/showcase-poster.webp"
+    },
+    "overview": "Safana (System Analytics Fauna Nusantara) is a web app that identifies endangered Indonesian wildlife from a photo. It was built by a capstone team, and I was the ML engineer. I trained the detection model and built its inference API. A user uploads a photo, and Safana names the species, explains its conservation status and points to the nearest conservation office (BKSDA) to report it.",
+    "problem": "Illegal wildlife trade in Indonesia has moved online: [a 12-month survey of six platforms found 996 ads for wildlife and wildlife products, including 45 nationally protected species](https://doi.org/10.1017/S0030605323001667 \"Padang et al. (2025), Oryx 59(2), Cambridge University Press\"). Most people cannot tell which animals are protected just by looking at them, and even when they suspect something is wrong, they rarely know which conservation office (BKSDA) to contact. Without a simple way to identify a species from a photo and route the report to the right office, sightings and trade posts seldom turn into action.",
+    "solution": "We collected photos of 11 protected species, partly with a Google Images scraper, labelled them with bounding boxes in Roboflow and exported about 8,400 images. I trained a RetinaNet detector with a ResNet-50 FPN backbone in the TensorFlow Model Garden and served it through FastAPI on Microsoft Azure. The main backend, built with Hapi on Node.js and MySQL, sends each upload to that API, finds the user's province from their coordinates with OpenStreetMap, and picks the closest BKSDA office in that province, shown with its phone number. A species page adds the conservation status, habitat, population, main threats and ecological role. Every detection is saved to a history and shown on a Leaflet map with clustered markers, next to a gallery of past findings. The frontend is a progressive web app that can be installed and keeps working offline for pages already visited.",
+    "techStack": ["TensorFlow", "RetinaNet (ResNet-50-FPN)", "Roboflow", "FastAPI", "Microsoft Azure", "Node.js (Hapi Framework)", "MySQL", "Leaflet", "Python", "JavaScript"],
+    "challenges": "Training RetinaNet in the Model Garden meant building the data pipeline ourselves, converting the Roboflow COCO export to TFRecord, and adapting the experiment configuration instead of calling a ready made trainer. I trained at 512 by 512 pixels with the backbone unfrozen and scale augmentation turned off. Small and distant animals stayed the weak spot. The model scored an AP of 0.61 on large animals, 0.12 on medium ones and 0.00 on small ones, so animals that fill only a small part of the photo are usually missed. Response time was the other limit, with a result taking about 6 to 8 seconds per photo.",
+    "results": "RetinaNet with ResNet-50 FPN reached an AP50 of 0.88 on the validation set, with an AP of 0.60 and an AP75 of 0.67. The same detector with a lighter MobileNet backbone reached only 0.37. The project was completed in one month, and we also took it outside the lab. During my community service (KKN) in Malaysia, I ran a wildlife hunt at a Sanggar Bimbingan, one of the [informal learning centres for children of Indonesian migrant workers, many of whom have no official documents](https://megapolitan.antaranews.com/berita/441872/menjamin-pendidikan-anak-pekerja-migran-di-malaysia \"ANTARA (2025)\"). The 20 children there had already learned Indonesia's map, flag and traditional dances, but not its native wildlife. I placed printed photos of the 11 species around the school, and the children searched for them and identified each animal with Safana. Looking back after the capstone, I would report the held out test split as well, since only validation scores were recorded. I would also add more photos of small and distant animals, or crop around them, to close the gap on wildlife seen from afar.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/safana/01.webp",
+        "alt": "Homepage",
+        "caption": "Landing page & upload interface"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/safana/02.webp",
+        "alt": "Detection result",
+        "caption": "Detection result with bounding box"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/safana/03.webp",
+        "alt": "Species detail",
+        "caption": "Species detail & conservation info"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/safana/04.webp",
+        "alt": "Detection map",
+        "caption": "Map of detections across Indonesia"
+      },
+      {
+        "id": "g5",
+        "src": "/images/projects/safana/05.webp",
+        "alt": "Fun fact pop-up",
+        "caption": "Did you know? Fun facts about native species"
+      }
+    ]
+  },
+
+  {
+  "slug": "ibm-hr-attrition-dashboard",
+  "title": "IBM HR Attrition Dashboard",
+  "secondaryTitle": "IBM HR Attrition Dashboard — People Analytics & Retention Strategy",
+  "category": "People Analytics",
+  "year": "2026",
+  "thumbnail": "/images/projects/ibm-hr-attrition-dashboard/thumbnail.webp",
+  "github": "https://github.com/rioooranteai/data-analytics-portfolio/tree/main/ibm-hr-attrition",
+  "video": {
+    "src": "/images/projects/ibm-hr-attrition-dashboard/showcase.mp4",
+    "poster": "/images/projects/ibm-hr-attrition-dashboard/showcase-poster.webp"
+  },
+  "overview": "A four-page Power BI dashboard that explores why employees leave, built on the IBM HR Analytics dataset of 1,470 employees and 35 features. The dataset is fictional, created by IBM data scientists and widely used for practice, so this is a case study of how an HR team could use such data, not work for a real company. I built the data model in Power Query, more than 20 DAX measures and calculated columns, filters that work across pages, and a risk score that places every active employee in a Low, Medium, High or Critical tier. Each page answers one business question, moving from an overview to root causes, then pay, and finally who is at risk now.",
+  "problem": "Replacing an employee can cost [one-half to two times their annual salary](https://www.gallup.com/workplace/247391/fixable-problem-costs-businesses-trillion.aspx \"Gallup (2019)\"), so knowing why people leave matters. In this dataset, 237 of 1,470 employees (16.1%) left. The case study asks two questions: why do people leave, and which current employees look most at risk? Static department reports cannot answer them, because they do not let you slice by role, demographics, pay and satisfaction at the same time.",
+  "solution": "The DAX measures are organised in four layers. The first holds the core attrition figures, built with DIVIDE and CALCULATE. The second compares leavers and stayers on overtime, business travel, satisfaction, work-life balance and job involvement. The third covers pay, including the income gap between the two groups. The fourth is the risk score, a calculated column written with VAR and RETURN that adds up five yes or no flags: works overtime, job satisfaction of 2 or lower, monthly income of $3,000 or lower, 4 or more years since the last promotion, and work-life balance of 2 or lower. A second column turns the score into a risk tier, which drives the risk chart and the High Risk Count on the last page.",
+  "techStack": [
+    "Power BI",
+    "DAX",
+    "Power Query",
+    "Data Modeling"
+  ],
+  "challenges": "The hardest part was building a meaningful risk score from a snapshot. The dataset has no time dimension, so attrition is already known rather than predicted. I took the five drivers found on the root cause page, turned each into a flag and added them up. As a check, I plotted the attrition rate against the risk tiers. It rises from 8% in Low to 21% in Medium, 36% in High and 37% in Critical. High and Critical are almost the same, so the score separates low risk from raised risk well but adds little between the top two tiers. Because the thresholds and the check come from the same data, this is an in-sample check, not a test of prediction. The other challenge was DAX context. Several measures needed an explicit CALCULATE to override row context inside matrix visuals, especially the dynamic attrition rate used in the satisfaction heatmap, the job level by overtime chart and the risk chart.",
+  "results": "The dashboard surfaces four findings. Overtime is one of the clearest factors: employees who work overtime leave at 30.5%, against 10.4% for those who do not, nearly three times the rate. Frequent business travel (24.9% against 8.0%) and low job involvement (34% against 9%) show similar gaps. Employees with no stock options leave at 24.4%, more than three times the rate at stock option level 2 (7.6%). Every unmarried employee in this dataset is at level 0, so the gap partly reflects marital status, but it still holds among married and divorced employees (21.1% against 9.9% for level 1 and above). Leavers earned $4.79K a month on average, against $6.83K for stayers. That $2.05K gap mostly reflects job level, because within the same level the incomes are much closer. Finally, 97 active employees both work overtime and report low job satisfaction, the kind of short list an HR team could use to start conversations about staying.",
+  "gallery": [
+    {
+      "id": "g1",
+      "src": "/images/projects/ibm-hr-attrition-dashboard/01.webp",
+      "alt": "Page 1 — Executive Overview",
+      "caption": "Overview: headline figures and attrition by department, role, age, gender and marital status"
+    },
+    {
+      "id": "g2",
+      "src": "/images/projects/ibm-hr-attrition-dashboard/02.webp",
+      "alt": "Page 2 — Root Cause Analysis",
+      "caption": "Root causes: overtime (30.5% against 10.4%), travel, work-life balance, involvement and satisfaction"
+    },
+    {
+      "id": "g3",
+      "src": "/images/projects/ibm-hr-attrition-dashboard/03.webp",
+      "alt": "Page 3 — Compensation & Fairness Analysis",
+      "caption": "Pay and fairness: income of leavers and stayers ($4.79K against $6.83K), by job level and stock options"
+    },
+    {
+      "id": "g4",
+      "src": "/images/projects/ibm-hr-attrition-dashboard/04.webp",
+      "alt": "Page 4 — Retention Strategy & Employee Risk Profiling",
+      "caption": "Risk profiling: 97 high risk employees, attrition by risk tier from 8% to 37%, and recommendations"
+    }
+  ]
+},
+
+  {
+    "slug": "veriface",
+    "title": "Veriface",
+    "secondaryTitle": "Veriface — eKYC Real-time Identity Verification System",
+    "category": "AI Identity Verification",
+    "year": "2026 (Ongoing)",
+    "thumbnail": "/images/projects/veriface/thumbnail.webp",
+    "github": "https://github.com/rioooranteai/veriface",
+    "overview": "Veriface is an eKYC prototype for Indonesian ID cards (KTP) that runs in the browser, and it is still in progress. It already finds the KTP and the user's face in live webcam video and reads the card's fields with OCR. Checking that a real person is present, known as liveness detection, is the next stage and is not built yet.",
+    "problem": "Digital onboarding in Indonesia starts with a KTP. Copying its 15 fields by hand is slow and error prone, and a picture of a KTP proves little on its own, because card images circulate widely. A flow in the browser therefore needs two things: reading the card reliably from live video, and, as a separate step, confirming that a real person is in front of the camera. Veriface does the first today and is building the second.",
+    "solution": "The user holds their KTP up to the webcam. A YOLO model finds and crops the card, PaddleOCR reads its fields, and the user's face is detected in the same video stream. Video goes from the browser to a FastAPI server over WebRTC, and feedback comes back over a WebSocket. Training data for the card detector was labelled automatically with Grounding DINO and then augmented, and the training runs were tracked in MLflow.",
+    "techStack": ["YOLO (Ultralytics)", "PaddleOCR", "Grounding DINO", "MLflow", "OpenCV", "FastAPI", "Python", "JavaScript"],
+    "challenges": "The project is still in progress, so this section is short. The main challenge so far has been keeping detection real time. WebRTC frames arrive on a separate thread while FastAPI runs an async event loop, so frames are throttled to about one every 300 ms and handed to the event loop without blocking it.",
+    "results": "Work in progress. The prototype finds the KTP and the user's face in live video and shows the OCR output in the browser. Liveness detection and a proper accuracy evaluation have not been done yet. When they are, I will report how accurately cards are detected and fields are read on a held out set of KTP images.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/veriface/01.webp",
+        "alt": "Landing page",
+        "caption": "Landing page and the steps of the verification"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/veriface/02.webp",
+        "alt": "Scan KTP page",
+        "caption": "Live KTP scan with the detected card and the OCR result"
+      }
+    ]
+  },
+
+  {
+    "slug": "cosmic-chronicle",
+    "title": "Cosmic Chronicle",
+    "secondaryTitle": "Cosmic Chronicle — Android Space Encyclopedia",
+    "category": "Android App",
+    "year": "2024",
+    "thumbnail": "/images/projects/cosmic-chronicle/thumbnail.webp",
+    "github": "https://github.com/riooorante/CosmicChronicle",
+    "overview": "Cosmic Chronicle is an Android encyclopedia of the Solar System that I built on my own in Java as the final project of my mobile programming course, in mid 2024. It lists the planets and their moons, shows Mars rover photos from NASA, and pairs famous space missions with videos. I did not keep screenshots of the running app, so the screens shown here are rebuilt from its own layout files, fonts and images.",
+    "problem": "Space agencies publish a lot of data for free. NASA offers [open APIs for its imagery and mission data](https://api.nasa.gov \"NASA Open APIs\"), and [The Solar System OpenData](https://api.le-systeme-solaire.net/en/ \"Le Système Solaire API\") lists every known planet and moon. Most of that data sits behind raw endpoints that people never see. I wanted one simple app where a curious student could browse the planets, see what a rover photographed and watch how a mission worked, without reading JSON.",
+    "solution": "The app is written in Java with the Android SDK, and a bottom navigation bar switches between three sections. Home has a slideshow of galaxy images and two entry points, The Planets and The Moons. The planet list and each planet's page load from The Solar System OpenData through Retrofit and OkHttp, and a short paragraph is built from the planet's gravity and average temperature. The moons page filters moons by the planet they orbit, and the chosen filter is saved in SharedPreferences, so it is still selected the next time. The Mars section shows the three rovers and a grid of rover photos from NASA's API, loaded with Glide. Missions pairs Apollo 11, Hubble and the ISS with embedded YouTube videos in a WebView.",
+    "techStack": ["Java", "Android SDK", "Retrofit", "OkHttp", "Glide", "NASA API"],
+    "challenges": "This was my first app that depended on live APIs, so most of the work went into the states around the data rather than the data itself. Requests run off the main thread, a spinner shows while a list loads, and a failed request shows a message asking the user to swipe to refresh instead of leaving a blank screen. The rover gallery has its own reload button for the same reason. The two APIs also name things differently. The Solar System OpenData uses French ids such as terre and saturne, so I named the planet images after those ids and looked them up at runtime, which keeps the list and its images in step without a separate lookup table.",
+    "results": "Cosmic Chronicle covers the eight planets, their moons, the Mars rovers and three missions, and runs on Android 11 and newer. It was a course project, so it was never published and has no users or metrics to report. Looking back, it has clear weaknesses. The NASA API key sits in the source code, the layouts use fixed sizes that do not adapt well to small screens, and there are no tests. If I rebuilt it, I would move the key out of the app, cache responses so it works offline, and rewrite the screens in Jetpack Compose.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/cosmic-chronicle/01.webp",
+        "alt": "Home feed and the planet list",
+        "caption": "Home feed, and the planet list loaded from The Solar System OpenData"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/cosmic-chronicle/02.webp",
+        "alt": "Mars detail page and the moons of Mars",
+        "caption": "A planet's page, and its moons filtered by planet"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/cosmic-chronicle/03.webp",
+        "alt": "Mars rovers and the missions page",
+        "caption": "Mars rovers with a photo grid, and missions with embedded videos; the grid uses images bundled in the app"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/cosmic-chronicle/overview.webp",
+        "alt": "Overview of Cosmic Chronicle's screens",
+        "caption": "Every main screen, rebuilt from the app's layout files"
+      }
+    ]
+  }
+]

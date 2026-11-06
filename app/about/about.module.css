@@ -1,0 +1,384 @@
+.wrap {
+  background: #0c0c0c;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Header — same rhythm as /work */
+.header {
+  padding: clamp(60px, 8vh, 100px) 0 0;
+  margin-top: clamp(24px, 4vw, 60px);
+}
+
+.eyebrow {
+  display: block;
+  padding: 0 clamp(1.25rem, 7vw, 8rem);
+  font-size: clamp(11px, 1vw, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.title {
+  padding: 0 clamp(1.25rem, 7vw, 8rem);
+  font-family: "Clash Display", "Syne", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  margin-top: 8px;
+  margin-bottom: clamp(24px, 4vw, 60px);
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.07);
+  transform-origin: left center;
+}
+
+.titleLine {
+  display: block;
+}
+
+/* Hidden until the GSAP load sequence runs (noscript + reduced-motion fallbacks below) */
+.wrap [data-about-hero] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap [data-about-hero] {
+    visibility: visible;
+  }
+}
+
+/* Article — numbered sections, same layout as project detail */
+.article {
+  padding: 0 clamp(1.25rem, 7vw, 8rem);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(36px, 7vh, 72px) 0;
+  align-items: start;
+}
+
+.sectionLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 100px;
+}
+
+.labelIndex {
+  font-size: max(11px, 0.65rem);
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.14em;
+  font-weight: 300;
+}
+
+.labelText {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(11px, 1.1vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.58);
+  text-transform: uppercase;
+}
+
+.sectionBody {
+  max-width: 760px;
+}
+
+.sectionDivider {
+  width: 100%;
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.leadText {
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.7;
+  margin-bottom: clamp(14px, 2vh, 22px);
+}
+
+.bodyText {
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.8;
+}
+
+/* Quick facts */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+  margin-top: clamp(28px, 4vh, 44px);
+  padding-top: clamp(20px, 3vh, 28px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.factLabel,
+.subHeading {
+  font-size: max(11px, 0.65rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.subHeading {
+  margin-top: clamp(20px, 3vh, 28px);
+  margin-bottom: 12px;
+}
+
+.factValue {
+  font-size: clamp(0.82rem, 1vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+}
+
+/* Timeline — a gold progress line fills the track as it is read */
+.timelineWrap {
+  position: relative;
+  max-width: 760px;
+}
+
+.track {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.trackProgress {
+  position: absolute;
+  inset: 0;
+  background: #d4a843;
+  transform-origin: top center;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 28px;
+  padding-bottom: clamp(28px, 5vh, 44px);
+}
+
+.timelineItem:last-child {
+  padding-bottom: 0;
+}
+
+.dot {
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d4a843;
+  border: 1.5px solid #d4a843;
+}
+
+.timelineHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+}
+
+.itemTitle {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.itemPeriod {
+  font-size: clamp(11px, 0.9vw, 11px);
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+.itemOrg {
+  margin-top: 4px;
+  font-size: clamp(0.82rem, 1vw, 0.9rem);
+  color: #d4a843;
+}
+
+.itemSep {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 4px;
+}
+
+.points {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.point {
+  position: relative;
+  padding-left: 18px;
+  font-size: clamp(0.85rem, 1.05vw, 0.93rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.75;
+}
+
+.point::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 8px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  font-size: clamp(11px, 0.9vw, 11px);
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 6px 15px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: color 0.22s, border-color 0.22s, background 0.22s;
+}
+
+.pill:hover {
+  color: #d4a843;
+  border-color: rgba(212, 168, 67, 0.35);
+  background: rgba(212, 168, 67, 0.05);
+}
+
+/* Achievements */
+.achievements {
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+}
+
+.achievement {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.achievement:first-child {
+  padding-top: 0;
+}
+
+.achievement:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.achYear {
+  font-size: max(11px, 0.75rem);
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
+  padding-top: 3px;
+}
+
+.achTitle {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* Skills */
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(24px, 3vw, 40px) clamp(24px, 4vw, 56px);
+  max-width: 860px;
+}
+
+.skillGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.colHeading {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(11px, 1vw, 0.82rem);
+  font-weight: 700;
+  color: #d4a843;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sectionLabel {
+    position: static;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .skillGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .achYear:empty {
+    display: none;
+  }
+
+  .timelineItem {
+    padding-left: 20px;
+  }
+}
