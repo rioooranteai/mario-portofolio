@@ -65,14 +65,20 @@
       {
         "id": "arch",
         "src": "/images/projects/indo-math/architecture.webp",
-        "alt": "Diagram of the training data pipeline, the SLERP merge, LoRA fine-tuning and the dashboard",
-        "caption": "How Indo Math was built: a verified dataset from a teacher model, a SLERP merge, then LoRA fine-tuning"
+        "alt": "Four steps: build the data, merge, fine-tune, run locally",
+        "caption": "How Indo Math was built: verified training data, a SLERP merge, LoRA fine-tuning, then a model that runs offline"
       },
       {
         "id": "results",
         "src": "/images/projects/indo-math/results.webp",
-        "alt": "Evaluation results in English and Indonesian for each model, by problem length, with McNemar's test",
-        "caption": "Evaluation on 1,319 GSM8K problems: accuracy per model and language, per problem length, and significance"
+        "alt": "English and Indonesian accuracy of the math model and Indo Math",
+        "caption": "The language gap on 1,319 GSM8K problems shrinks from 58.9 to 23.0 points"
+      },
+      {
+        "id": "results-length",
+        "src": "/images/projects/indo-math/results-length.webp",
+        "alt": "Indonesian accuracy by number of solution steps",
+        "caption": "Indonesian accuracy by problem length: long problems remain the weak spot"
       }
     ]
   },
