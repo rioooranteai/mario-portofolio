@@ -1,5 +1,83 @@
 [
   {
+    "slug": "indo-math",
+    "title": "Indo Math",
+    "secondaryTitle": "Indo Math — Indonesian Math Reasoning Model",
+    "category": "Small Language Model Research",
+    "year": "2026",
+    "thumbnail": "/images/projects/indo-math/thumbnail.webp",
+    "github": "https://github.com/rioooranteai/indo-math-reasoning-slm",
+    "video": {
+      "src": "/images/projects/indo-math/showcase.mp4",
+      "poster": "/images/projects/indo-math/showcase-poster.webp"
+    },
+    "overview": "Indo Math is the small language model I built for my undergraduate thesis. It solves math word problems written in Indonesian and shows its working step by step. It starts from Qwen2.5-Math-1.5B-Instruct, a 1.5 billion parameter model that is strong at math in English but weak in Indonesian, and narrows that gap in two stages: a merge with a general multilingual model, then fine-tuning on Indonesian questions paired with worked solutions. The final model runs on a 4 GB laptop GPU, is [published on Hugging Face](https://huggingface.co/rantetadung/indo-math-slerp-sft-1.5b \"Hugging Face\"), and is served through a dashboard in Indonesian.",
+    "problem": "Mathematics is a weak point for many Indonesian students: in PISA 2022, [only 18% reached at least Level 2 in mathematics, against an OECD average of 69%](https://www.oecd.org/en/publications/pisa-2022-results-volume-i-and-ii-country-notes_ed6fbcc5-en/indonesia_c2e1ae0e-en.html \"OECD (2023), PISA 2022 Country Notes: Indonesia\"). A small model that runs on an ordinary laptop could explain word problems step by step, without sending anything to a cloud service. The catch is language. Small models learn mostly from English, and math specialists even more so. On the 1,319 problems of the GSM8K test set, Qwen2.5-Math-1.5B-Instruct answers 85.7% correctly in English but only 26.8% of the same problems in Indonesian, a gap of 58.9 points. The general Qwen2.5-1.5B-Instruct loses only 19.3 points, but it is weaker at math to begin with. [MATH-IDN](https://aclanthology.org/2026.findings-eacl.231/ \"Xiao et al. (2026), Findings of EACL\"), a recent benchmark, also finds large gaps for Indonesian local languages. Neither model alone gives Indonesian students a reliable small math tutor.",
+    "solution": "I built the training data first. From the 7,473 GSM8K training problems, I took a stratified sample of 4,000 by the number of reasoning steps, from three or fewer to six or more. A larger teacher, Qwen2.5-Math-7B-Instruct, wrote a step-by-step solution for each, and I kept only the 3,825 whose final answer matched the answer key. Gemini translated the questions into Indonesian, and every translation was rated for fluency and change of meaning. The model is then built in two stages. First, mergekit combines the math model with the general model by spherical linear interpolation (SLERP). The weight t sets how much of the general model goes in, and Optuna searched for it over 20 merges, each scored on 150 separate Indonesian training problems. The best value was t = 0.08398, so the merge stays close to the math model. Second, LoRA fine-tuning with Unsloth teaches the merged model to read an Indonesian question and reason in English, with the loss computed on the solution only. The adapter was merged into the model and served by FastAPI with three pages in Indonesian: one problem at a time, a CSV of many problems with a score, and a plain explanation of the model and its limits.",
+    "techStack": [
+      "Qwen2.5-Math",
+      "mergekit",
+      "Optuna",
+      "Unsloth",
+      "LoRA",
+      "PyTorch",
+      "Transformers",
+      "Gemini",
+      "FastAPI",
+      "KaTeX",
+      "Hugging Face",
+      "Python",
+      "JavaScript"
+    ],
+    "challenges": "The first challenge was measuring the gap fairly. Every model, in both languages, uses the same system prompt, greedy decoding and answer rule: the last \\boxed{} value, falling back to the last number, with currency signs and thousands separators removed. Each change is then checked with McNemar's test and a Holm-Bonferroni correction, so a gain is only claimed when it is unlikely to be noise. The second challenge was the merge weight. Every trial meant a full merge and an evaluation on a GPU, so I limited the search to t between 0.075 and 0.09, based on earlier manual runs. Even then the signal was weak: all 20 trials scored between 40.67% and 47.33%, and the two best, at t = 0.084 and t = 0.088, tied exactly. On 150 problems, one or two answers decide the order, so the chosen t is a reasonable value rather than a proven optimum. The third challenge was the hardware. The dashboard loads the whole model on a 4 GB laptop GPU in bfloat16, with no offloading to the CPU, so requests are answered one at a time.",
+    "results": "On all 1,319 test problems, Indonesian accuracy rose from 26.8% to 61.49%, and the gap to English fell from 58.9 to 22.97 points, while English moved only from 85.7% to 84.46%. Both stages helped: the merge added 18.69 points in Indonesian and fine-tuning another 16.00. McNemar's test shows that every Indonesian gain is significant (p < 0.001) and that no English drop is. To check that the merge was worth it, I ran the same fine-tuning on the original math model, with the same data and settings. It reached 53.98% in Indonesian, 7.51 points below the merged model. A weight comparison showed that the merge changed the embeddings and the output head most, while the attention and MLP blocks stayed almost identical to the math model. Long problems remain the weak spot: in Indonesian, the model solves 69.58% of problems with three steps or fewer but 42.67% of those with six or more. It also reasons in English, and the test set is a translation of GSM8K rather than problems written in Indonesian. A natural next step is to evaluate on Indonesian exams such as SNBT and OSN, and to look inside the model at which layers recover Indonesian.",
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "/images/projects/indo-math/01.webp",
+        "alt": "Hitung page with an empty question box and three example cards",
+        "caption": "Hitung: type a word problem, or pick an example from the GSM8K test set by difficulty"
+      },
+      {
+        "id": "g2",
+        "src": "/images/projects/indo-math/02.webp",
+        "alt": "Hitung page showing a large final answer for an example question",
+        "caption": "The final answer, read from the model's last \\boxed{} value and checked against the answer key"
+      },
+      {
+        "id": "g3",
+        "src": "/images/projects/indo-math/03.webp",
+        "alt": "Step-by-step solution rendered with Markdown and KaTeX",
+        "caption": "Lihat cara menghitung: the working, written in English and rendered with KaTeX"
+      },
+      {
+        "id": "g4",
+        "src": "/images/projects/indo-math/04.webp",
+        "alt": "Banyak soal page with the three steps: prepare, upload and run a CSV",
+        "caption": "Banyak soal: upload a CSV of problems, with an optional answer key, and download every answer with a score"
+      },
+      {
+        "id": "g5",
+        "src": "/images/projects/indo-math/05.webp",
+        "alt": "Tentang model page explaining how the model was built",
+        "caption": "Tentang model: how the model was built, how accurate it is, and its limits, in plain Indonesian"
+      },
+      {
+        "id": "arch",
+        "src": "/images/projects/indo-math/architecture.webp",
+        "alt": "Diagram of the training data pipeline, the SLERP merge, LoRA fine-tuning and the dashboard",
+        "caption": "How Indo Math was built: a verified dataset from a teacher model, a SLERP merge, then LoRA fine-tuning"
+      },
+      {
+        "id": "results",
+        "src": "/images/projects/indo-math/results.webp",
+        "alt": "Evaluation results in English and Indonesian for each model, by problem length, with McNemar's test",
+        "caption": "Evaluation on 1,319 GSM8K problems: accuracy per model and language, per problem length, and significance"
+      }
+    ]
+  },
+
+  {
     "slug": "argos",
     "title": "ArgosAI",
     "secondaryTitle": "ArgosAI — Competitive Intelligence System",
